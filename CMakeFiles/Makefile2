@@ -63,85 +63,42 @@ CMAKE_BINARY_DIR = /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/lab1.dir/all
-all: mymath/all
+all: CMakeFiles/lab2.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: mymath/preinstall
+preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/lab1.dir/clean
-clean: mymath/clean
+clean: CMakeFiles/lab2.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory mymath
-
-# Recursive "all" directory target.
-mymath/all: mymath/CMakeFiles/mymath.dir/all
-.PHONY : mymath/all
-
-# Recursive "preinstall" directory target.
-mymath/preinstall:
-.PHONY : mymath/preinstall
-
-# Recursive "clean" directory target.
-mymath/clean: mymath/CMakeFiles/mymath.dir/clean
-.PHONY : mymath/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/lab1.dir
+# Target rules for target CMakeFiles/lab2.dir
 
 # All Build rule for target.
-CMakeFiles/lab1.dir/all: mymath/CMakeFiles/mymath.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab1.dir/build.make CMakeFiles/lab1.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab1.dir/build.make CMakeFiles/lab1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles --progress-num=1,2 "Built target lab1"
-.PHONY : CMakeFiles/lab1.dir/all
+CMakeFiles/lab2.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles --progress-num=1,2 "Built target lab2"
+.PHONY : CMakeFiles/lab2.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/lab1.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/lab1.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles 0
-.PHONY : CMakeFiles/lab1.dir/rule
-
-# Convenience name for target.
-lab1: CMakeFiles/lab1.dir/rule
-.PHONY : lab1
-
-# clean rule for target.
-CMakeFiles/lab1.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab1.dir/build.make CMakeFiles/lab1.dir/clean
-.PHONY : CMakeFiles/lab1.dir/clean
-
-#=============================================================================
-# Target rules for target mymath/CMakeFiles/mymath.dir
-
-# All Build rule for target.
-mymath/CMakeFiles/mymath.dir/all:
-	$(MAKE) $(MAKESILENT) -f mymath/CMakeFiles/mymath.dir/build.make mymath/CMakeFiles/mymath.dir/depend
-	$(MAKE) $(MAKESILENT) -f mymath/CMakeFiles/mymath.dir/build.make mymath/CMakeFiles/mymath.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles --progress-num=3,4 "Built target mymath"
-.PHONY : mymath/CMakeFiles/mymath.dir/all
-
-# Build rule for subdir invocation for target.
-mymath/CMakeFiles/mymath.dir/rule: cmake_check_build_system
+CMakeFiles/lab2.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mymath/CMakeFiles/mymath.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/lab2.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles 0
-.PHONY : mymath/CMakeFiles/mymath.dir/rule
+.PHONY : CMakeFiles/lab2.dir/rule
 
 # Convenience name for target.
-mymath: mymath/CMakeFiles/mymath.dir/rule
-.PHONY : mymath
+lab2: CMakeFiles/lab2.dir/rule
+.PHONY : lab2
 
 # clean rule for target.
-mymath/CMakeFiles/mymath.dir/clean:
-	$(MAKE) $(MAKESILENT) -f mymath/CMakeFiles/mymath.dir/build.make mymath/CMakeFiles/mymath.dir/clean
-.PHONY : mymath/CMakeFiles/mymath.dir/clean
+CMakeFiles/lab2.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/clean
+.PHONY : CMakeFiles/lab2.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

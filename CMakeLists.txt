@@ -1,19 +1,18 @@
 cmake_minimum_required(VERSION 3.23)
 
-set(project "lab1")
-project(${project})
+project("lab2")
 
-set(CMAKE_CXX_STANDARD 17)
+set(SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Lab_2.cpp
+)
+set(HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/mymath/mymath.h
+)
 
-set(${project}_SOURCES
-        Lab_1.cpp)
+link_directories("mymath")
 
-add_subdirectory(mymath)
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wpedantic)
 
-set(${project}_SOURCE_LIST
-        ${${project}_SOURCES})
-
-add_executable(${project}
-        ${${project}_SOURCE_LIST})
-
-target_link_libraries(${project} mymath)
+target_link_libraries(${PROJECT_NAME} mymath)

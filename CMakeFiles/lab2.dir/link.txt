@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/lab2.dir/Lab_2.cpp.o -o lab2   -L/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/mymath  -Wl,-rpath,/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/mymath -lmymath 
