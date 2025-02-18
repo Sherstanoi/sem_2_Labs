@@ -1,0 +1,6 @@
+/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles/lab1.dir
+/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles/edit_cache.dir
+/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles/rebuild_cache.dir
+/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/mymath/CMakeFiles/mymath.dir
+/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/mymath/CMakeFiles/edit_cache.dir
+/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/mymath/CMakeFiles/rebuild_cache.dir
