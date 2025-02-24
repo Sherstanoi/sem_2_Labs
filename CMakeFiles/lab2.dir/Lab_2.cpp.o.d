@@ -155,4 +155,9 @@ CMakeFiles/lab2.dir/Lab_2.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
+ /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/Lab_2.hpp \
+ /usr/include/c++/13/fstream /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+ /usr/include/c++/13/bits/fstream.tcc \
  /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/mymath/mymath.h

@@ -1,0 +1,5 @@
+Ivan Cleaning 12 5000
+Vovan Tractor_Driver 0,2 18500
+Stepan Teacher 10 3000
+Diana Baker 2 20000
+Egor Marketolog 23 3000
