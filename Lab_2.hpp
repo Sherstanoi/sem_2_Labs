@@ -1,58 +1,91 @@
-#include <iostream>
-#include <fstream>
 #include "mymath/mymath.h"
+#include <cstring>
+#include <fstream>
+#include <iostream>
 
 namespace Classes {
-    class Planet {
-        private:
-        static int amount;
-        char* name;
-        int diameter;
-        bool life;
-        int satellites;
-        public:
-        Planet(char* planetName, int diameter, bool life, int satellite) {
-            amount++;
-            SetName(planetName);
-            SetDiameter(diameter);
-            SetSatellites(satellite);
-            SetLife(life);
-        }
-        Planet() {
-            amount++;
-            //char* Al = new char[12];
-            //SetName(Al);
-            SetDiameter(1);
-            SetSatellites(1);
-            SetLife(1);
-        }
-        ~Planet() {
-            amount--;
-        }
+class Planet {
+private:
+  static int amount;
+  char *name;
+  int diameter;
+  bool life;
+  int satellites;
 
-        char* GetName();
-        int GetDiameter();
-        int GetSatellites();
-        bool GetLife();
+public:
+  Planet(const char *planetName, int diameter, bool life, int satellite) {
+    amount++;
+    name = new char[strlen(planetName) + 1];
+    strcpy(name, planetName);
+    name[strlen(planetName) + 1] = '\0';
+    SetDiameter(diameter);
+    SetSatellites(satellite);
+    SetLife(life);
+  }
+  Planet() {
+    amount++;
+    name = new char[1];
+    name[0] = '\0';
+    SetDiameter(0);
+    SetSatellites(1);
+    SetLife(1);
+  }
+  Planet(Planet &oldPlanet) {
+    name = new char[strlen(oldPlanet.GetName()) + 1];
+    strcpy(name, oldPlanet.GetName());
+    name[strlen(oldPlanet.GetName()) + 1] = '\0';
+    SetDiameter(oldPlanet.GetDiameter());
+    SetLife(oldPlanet.GetLife());
+    SetSatellites(oldPlanet.GetSatellites());
+  }
+  Planet &operator=(Planet &oldPlanet) {
+    if (this == &oldPlanet) {
+      return *this;
+    }
+    SetName(oldPlanet.GetName());
+    SetDiameter(oldPlanet.GetDiameter());
+    SetLife(oldPlanet.GetLife());
+    SetSatellites(oldPlanet.GetSatellites());
+    return *this;
+  }
+  ~Planet() {
+    amount--;
+    delete[] name;
+  }
 
-        void SetName(char* Name);
-        void SetDiameter(int diameter);
-        void SetSatellites(int Satellites);
-        void SetLife(bool life);
+  char *GetName();
+  int GetDiameter();
+  int GetSatellites();
+  bool GetLife();
 
-        friend void ChangePlaces(Planet* SolarSystem,int SolarAmount);
-    };
-    class Applications {
-        private:
+  void SetName(char *Name);
+  void SetDiameter(int diameter);
+  void SetSatellites(int Satellites);
+  void SetLife(bool life);
 
-        public:
-    };
+  friend void ChangePlaces(Planet *SolarSystem, int SolarAmount);
+};
+class Applications {
+private:
+public:
+};
 
-}
+} // namespace Classes
 namespace Functions {
-    void PlanetFileReading(Classes::Planet* SolarSystem, int i);
+void PlanetFileReading(Classes::Planet *SolarSystem, int Len); //done
 
-    void SortPlanets(Classes::Planet* SolarSystem, int SolarAmount);
+void PlanetFileWriting(Classes::Planet *SolarSystem, int Len);
 
-    void PrintResult(Classes::Planet* planets);
+Classes::Planet* AddPlanet(Classes::Planet *SolarSystem, int &Len); //done
+
+void AddPlanet(Classes::Planet *SolarSystem, const char *Name, int diameter,
+               int life, int satelites, int *Len); //done
+
+Classes::Planet* DeletePlanet(Classes::Planet *SolarSystem, int &Len);
+
+void SortPlanets(Classes::Planet *SolarSystem, int SolarAmount);
+
+void PrintResult(Classes::Planet *planets, int Len); // done
+
+Classes::Planet* ChangeSystem(Classes::Planet *SolarSystem, int Len);
 }
