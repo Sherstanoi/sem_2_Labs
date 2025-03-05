@@ -78,6 +78,7 @@ CMakeFiles/lab2.dir/Lab_2.cpp.o: Lab_2.cpp \
   /usr/include/c++/13/cstddef \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
+  /usr/include/c++/13/cstring \
   /usr/include/c++/13/cwchar \
   /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
@@ -118,6 +119,8 @@ CMakeFiles/lab2.dir/Lab_2.cpp.o: Lab_2.cpp \
   /usr/include/stdc-predef.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
+  /usr/include/string.h \
+  /usr/include/strings.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
   /usr/include/wctype.h \
@@ -224,8 +227,6 @@ CMakeFiles/lab2.dir/Lab_2.cpp.o: Lab_2.cpp \
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h:
 
-/usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
-
 /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
@@ -270,8 +271,6 @@ CMakeFiles/lab2.dir/Lab_2.cpp.o: Lab_2.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
-/usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
-
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
@@ -293,6 +292,10 @@ CMakeFiles/lab2.dir/Lab_2.cpp.o: Lab_2.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/bits/endian.h:
 
 /usr/include/c++/13/bits/stl_construct.h:
 
@@ -464,6 +467,10 @@ Lab_2.cpp:
 
 /usr/include/features-time64.h:
 
+/usr/include/x86_64-linux-gnu/bits/endianness.h:
+
+/usr/include/c++/13/bits/basic_string.h:
+
 /usr/include/stdc-predef.h:
 
 /usr/include/asm-generic/errno.h:
@@ -519,6 +526,8 @@ Lab_2.hpp:
 /usr/include/c++/13/cstdio:
 
 /usr/include/c++/13/cstdlib:
+
+/usr/include/c++/13/cstring:
 
 /usr/include/c++/13/debug/assertions.h:
 
@@ -584,6 +593,20 @@ Lab_2.hpp:
 
 /usr/include/stdlib.h:
 
+/usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
+
+/usr/include/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
+
+/usr/include/strings.h:
+
+/usr/include/x86_64-linux-gnu/bits/errno.h:
+
+/usr/include/c++/13/exception:
+
+/usr/include/wctype.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
@@ -591,17 +614,3 @@ Lab_2.hpp:
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs.h:
-
-/usr/include/x86_64-linux-gnu/bits/endian.h:
-
-/usr/include/c++/13/bits/basic_string.h:
-
-/usr/include/x86_64-linux-gnu/bits/endianness.h:
-
-/usr/include/c++/13/exception:
-
-/usr/include/wctype.h:
-
-/usr/include/x86_64-linux-gnu/bits/errno.h:

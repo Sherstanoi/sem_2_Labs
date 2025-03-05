@@ -143,21 +143,24 @@ Classes::Planet* ChangeSystem(Classes::Planet *SolarSystem, int Len) {
   }
   case 2: {
     std::cout << "Здайте новый диаметр: ";
-    int NewDiametr;
+    int NewDiametr = 0;
+    std::cin>>NewDiametr;
     SolarSystem[PlanetChange].SetDiameter(NewDiametr);
     std::cout << std::endl;
     break;
   }
   case 3: {
     std::cout << "Здайте Наличие жизни: ";
-    int NewLife;
+    int NewLife = 0;
+    std::cin>>NewLife;
     SolarSystem[PlanetChange].SetDiameter(NewLife);
     std::cout << std::endl;
     break;
   }
   case 4: {
     std::cout << "Здайте новое количество спуников: ";
-    int NewSatellites;
+    int NewSatellites = 0;
+    std::cin>> NewSatellites;
     SolarSystem[PlanetChange].SetDiameter(NewSatellites);
     std::cout << std::endl;
     break;

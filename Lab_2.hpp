@@ -30,22 +30,22 @@ public:
     SetSatellites(1);
     SetLife(1);
   }
-  Planet(Planet &oldPlanet) {
-    name = new char[strlen(oldPlanet.GetName()) + 1];
-    strcpy(name, oldPlanet.GetName());
-    name[strlen(oldPlanet.GetName()) + 1] = '\0';
-    SetDiameter(oldPlanet.GetDiameter());
-    SetLife(oldPlanet.GetLife());
-    SetSatellites(oldPlanet.GetSatellites());
+  Planet(const Planet &oldPlanet) {
+    name = new char[strlen(oldPlanet.name) + 1];
+    strcpy(name, oldPlanet.name);
+    name[strlen(oldPlanet.name) + 1] = '\0';
+    SetDiameter(oldPlanet.diameter);
+    SetLife(oldPlanet.life);
+    SetSatellites(oldPlanet.satellites);
   }
-  Planet &operator=(Planet &oldPlanet) {
+  Planet &operator=(const Planet &oldPlanet) {
     if (this == &oldPlanet) {
       return *this;
     }
-    SetName(oldPlanet.GetName());
-    SetDiameter(oldPlanet.GetDiameter());
-    SetLife(oldPlanet.GetLife());
-    SetSatellites(oldPlanet.GetSatellites());
+    SetName(oldPlanet.name);
+    SetDiameter(oldPlanet.diameter);
+    SetLife(oldPlanet.life);
+    SetSatellites(oldPlanet.satellites);
     return *this;
   }
   ~Planet() {
@@ -63,7 +63,7 @@ public:
   void SetSatellites(int Satellites);
   void SetLife(bool life);
 
-  friend void ChangePlaces(Planet *SolarSystem, int SolarAmount);
+  //friend void ChangePlaces(Planet *SolarSystem, int SolarAmount);
 };
 class Applications {
 private:
