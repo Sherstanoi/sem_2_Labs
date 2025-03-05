@@ -3,13 +3,8 @@ cmake_minimum_required(VERSION 3.23)
 project("lab2")
 
 set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lab_2.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Lab_2_pers.cpp
 )
-set(HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/mymath/mymath.h
-)
-
-link_directories("mymath")
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)

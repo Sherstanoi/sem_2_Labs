@@ -1,4 +1,4 @@
-#include "Lab_2.hpp"
+#include "Lab_2_pers.hpp"
 
 void Classes::Planet::SetName(char *Name) {
   delete[] name;

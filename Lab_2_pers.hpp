@@ -1,4 +1,3 @@
-#include "mymath/mymath.h"
 #include <cstring>
 #include <fstream>
 #include <iostream>
