@@ -216,6 +216,15 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
+Example_BINARY_DIR:STATIC=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs
+
+//Value Computed by CMake
+Example_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Example_SOURCE_DIR:STATIC=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs
+
+//Value Computed by CMake
 lab2_BINARY_DIR:STATIC=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs
 
 //Value Computed by CMake

@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/lab2.dir/Lab_2_pers.cpp.o -o lab2  -lmymath 
+/usr/bin/c++ CMakeFiles/lab2.dir/main2.cpp.o CMakeFiles/lab2.dir/Lab_2_pers.cpp.o -o lab2 

@@ -49,17 +49,18 @@ void Classes::JobApplication::SortAppications(JobApplication *ApplicationBase,
   }
 }
 
-void Classes::JobApplication::PrintResult(
-    Classes::JobApplication *apploications, int Len) {
+void Classes::JobApplication::PrintResult(JobApplication *apploications,
+                                          int Len) {
   for (int i = 0; i < Len; i++) {
     std::cout << apploications[i];
   }
 }
 
-Classes::JobApplication *Classes::JobApplication::AddApplication(
-    Classes::JobApplication *ApplicationBase, int &Len) {
+Classes::JobApplication *
+Classes::JobApplication::AddApplication(JobApplication *ApplicationBase,
+                                        int &Len) {
   Len += 1;
-  Classes::JobApplication *Temp = new Classes::JobApplication[Len];
+  JobApplication *Temp = new JobApplication[Len];
   for (int i = 0; i < Len - 1; ++i) {
     Temp[i] = ApplicationBase[i];
   }
@@ -85,21 +86,8 @@ Classes::JobApplication *Classes::JobApplication::AddApplication(
   return ApplicationBase;
 }
 
-void Classes::JobApplication::AddApplication(
-    Classes::JobApplication *ApplicationBase, const char *Name, const char *Job,
-    int workHours, int sellary, int &Len) {
-  Len += 1;
-  Classes::JobApplication *Temp = new Classes::JobApplication[Len];
-  Temp = ApplicationBase;
-  Classes::JobApplication NewApplication(Name, Job, workHours, sellary);
-  Temp[Len - 1] = NewApplication;
-  delete[] ApplicationBase;
-  ApplicationBase = Temp;
-  // return ApplicationBase;
-}
-
 void Classes::JobApplication::ApplicationFileReading(
-    Classes::JobApplication *ApplicationBase, int &Len) {
+    JobApplication *ApplicationBase, int &Len) {
   std::ifstream applications("ApplicationsRawInfo.txt");
   int jk = 0;
   while (applications) {
@@ -115,8 +103,7 @@ void Classes::JobApplication::ApplicationFileReading(
 }
 
 Classes::JobApplication *
-Classes::JobApplication::ChangeBase(Classes::JobApplication *ApplicationBase,
-                                    int Len) {
+Classes::JobApplication::ChangeBase(JobApplication *ApplicationBase, int Len) {
   for (int i = 0; i < Len; ++i) {
     std::cout << i << "." << ApplicationBase[i].GetName() << "\n";
   }
@@ -169,9 +156,10 @@ Classes::JobApplication::ChangeBase(Classes::JobApplication *ApplicationBase,
   return ApplicationBase;
 }
 
-Classes::JobApplication *Classes::JobApplication::DeleteApplication(
-    Classes::JobApplication *ApplicationBase, int &Len) {
-  Classes::JobApplication *Temp = new Classes::JobApplication[Len];
+Classes::JobApplication *
+Classes::JobApplication::DeleteApplication(JobApplication *ApplicationBase,
+                                           int &Len) {
+  JobApplication *Temp = new JobApplication[Len];
   if (ApplicationBase[0].GetWorkHours()) {
     for (int i = 0; i < Len; ++i) {
       std::cout << i << "." << ApplicationBase[i].GetName() << "\n";
@@ -196,7 +184,7 @@ Classes::JobApplication *Classes::JobApplication::DeleteApplication(
 }
 
 void Classes::JobApplication::ApplicationFileWriting(
-    Classes::JobApplication *ApplicationBase, int Len) {
+    JobApplication *ApplicationBase, int Len) {
   std::ofstream planets("ApplicationsSortedInfo.txt");
   for (int i = 0; i < Len; ++i) {
     planets << ApplicationBase[i];

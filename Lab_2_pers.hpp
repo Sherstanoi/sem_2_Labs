@@ -99,10 +99,6 @@ public:
   static Classes::JobApplication *
   AddApplication(Classes::JobApplication *ApplicationBase, int &Len);
 
-  static void AddApplication(Classes::JobApplication *ApplicationBase,
-                             const char *Name, const char* job, int workHours, int sellary,
-                             int &Len);
-
   static Classes::JobApplication *
   DeleteApplication(Classes::JobApplication *ApplicationBase, int &Len);
 

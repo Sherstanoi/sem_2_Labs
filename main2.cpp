@@ -55,7 +55,7 @@ int main() {
             break;
         case 6:
             if(LazyFlag) {
-                Classes::JobApplication* Temp = new Classes::JobApplication[StartLen-1];
+                // Classes::JobApplication* Temp = new Classes::JobApplication[StartLen-1];
                 applications = applications[0].DeleteApplication(applications, StartLen);
             }
             else {
@@ -87,6 +87,6 @@ int main() {
     << std::endl;
      std::cin >> choise;
     }
-
+    delete[] applications;
   return 0;
 }

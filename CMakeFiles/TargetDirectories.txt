@@ -1,3 +1,4 @@
 /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles/lab2.dir
+/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles/clang-format.dir
 /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles/edit_cache.dir
 /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles/rebuild_cache.dir
