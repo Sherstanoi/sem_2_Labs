@@ -1,212 +1,205 @@
 #include "Lab_2_pers.hpp"
 
-void Classes::Planet::SetName(char *Name) {
-  delete[] name;
-  name = new char[strlen(Name) + 1];
-  strcpy(name, Name);
-  name[strlen(Name) + 1] = '\0';
+void Classes::JobApplication::SetName(char *name) {
+  delete[] Name;
+  Name = new char[strlen(name) + 1];
+  strcpy(Name, name);
+  Name[strlen(name) + 1] = '\0';
 }
 
-void Classes::Planet::SetDiameter(int D) { diameter = D; }
+void Classes::JobApplication::SetJob(char *Job) {
+  delete[] job;
+  job = new char[strlen(Job) + 1];
+  strcpy(job, Job);
+  job[strlen(Job) + 1] = '\0';
+}
 
-void Classes::Planet::SetLife(bool Life) { life = Life; }
+void Classes::JobApplication::SetWorkHours(int D) { WorkHours = D; }
 
-void Classes::Planet::SetSatellites(int Satellites) { satellites = Satellites; }
+void Classes::JobApplication::SetSellary(int Satellites) {
+  Sellary = Satellites;
+}
 
-char *Classes::Planet::GetName() { return name; }
+char *Classes::JobApplication::GetName() { return Name; }
 
-int Classes::Planet::GetDiameter() { return diameter; }
+char *Classes::JobApplication::GetJob() { return job; }
 
-bool Classes::Planet::GetLife() { return life; }
+int Classes::JobApplication::GetWorkHours() { return WorkHours; }
 
-int Classes::Planet::GetSatellites() { return satellites; }
+int Classes::JobApplication::GetSellary() { return Sellary; }
 
-int Classes::Planet::amount = 0;
+int Classes::JobApplication::amount = 0;
 
-namespace Functions {
-
-void SortPlanets(Classes::Planet *SolarSystem, int SolarAmount) {
-  Classes::Planet Temp;
+void Classes::JobApplication::SortAppications(JobApplication *ApplicationBase,
+                                              int SolarAmount) {
+  JobApplication Temp("yz", "nn", 1, 1);
   for (int k = SolarAmount; k > 0; --k) {
-    if (SolarSystem[k].GetDiameter() < SolarSystem[k - 1].GetDiameter()) {
+    char *a = ApplicationBase[k].GetName();
+    char *b = ApplicationBase[k - 1].GetName();
+    if (std::strcmp(a, b) < 0) {
       for (int i = k - 1; i < SolarAmount; ++i) {
-        if (SolarSystem[i].GetDiameter() > SolarSystem[i + 1].GetDiameter()) {
-          Temp = SolarSystem[i];
-          SolarSystem[i] = SolarSystem[i + 1];
-          SolarSystem[i + 1] = Temp;
+        if (std::strcmp(ApplicationBase[i].GetName(),
+                        ApplicationBase[i + 1].GetName()) > 0) {
+          Temp = ApplicationBase[i];
+          ApplicationBase[i] = ApplicationBase[i + 1];
+          ApplicationBase[i + 1] = Temp;
         }
       }
     }
   }
 }
 
-void PrintResult(Classes::Planet *planets, int Len) {
+void Classes::JobApplication::PrintResult(
+    Classes::JobApplication *apploications, int Len) {
   for (int i = 0; i < Len; i++) {
-    std::cout << planets[i].GetName() << "\n";
-    std::cout << planets[i].GetDiameter() << " ";
-    std::cout << planets[i].GetLife() << " ";
-    std::cout << planets[i].GetSatellites() << "\n";
+    std::cout << apploications[i];
   }
 }
 
-Classes::Planet* AddPlanet(Classes::Planet *SolarSystem, int &Len) {
+Classes::JobApplication *Classes::JobApplication::AddApplication(
+    Classes::JobApplication *ApplicationBase, int &Len) {
   Len += 1;
-  Classes::Planet *Temp = new Classes::Planet[Len];
+  Classes::JobApplication *Temp = new Classes::JobApplication[Len];
   for (int i = 0; i < Len - 1; ++i) {
-    Temp[i] = SolarSystem[i];
+    Temp[i] = ApplicationBase[i];
   }
+
   char NewName[100]{};
-  int NewDiameter;
-  int NewLIfe;
-  int NewSetellites;
+  int NewWorkHour;
+  char NewJob[100]{};
+  int NewSellary;
 
-  std::cout << "Введите Нзвание новой планеты, пожалуйста:" << std::endl;
+  std::cout << "Введите имя заявителя, пожалуйста: " << std::endl;
   std::cin >> NewName;
-  std::cout << "А теперь диаметр, пожалуйста:" << std::endl;
-  std::cin >> NewDiameter;
-  std::cout << "Есть ли на ней жизнь? (1= да, 0 = нет)" << std::endl;
-  std::cin >> NewLIfe;
-  if (NewLIfe > 1) {
-    std::cout << "Ну я же написал, какие результаты существуют..." << std::endl;
-    return SolarSystem;
-  }
-  std::cout << "А сколько спутников? " << std::endl;
-  std::cin >> NewSetellites;
-  std::cout << NewSetellites;
-  Classes::Planet NewPlanet(NewName, NewDiameter, NewLIfe, NewSetellites);
-  Temp[Len - 1] = NewPlanet;
-  delete[] SolarSystem;
-  SolarSystem = Temp;
-  return SolarSystem;
-  // SolarSystem = new Classes::Planet[Len];
-  // for (int i = 0; i < Len; ++i) {
-  //   SolarSystem[i] = Temp[i];
-  // }
-  // delete[] Temp;
+  std::cout << "А теперь работу, пожалуйста: " << std::endl;
+  std::cin >> NewJob;
+  std::cout << "сколько заявитель будет работать? " << std::endl;
+  std::cin >> NewWorkHour;
+  std::cout << "А сколько получать за это? " << std::endl;
+  std::cin >> NewSellary;
+  Classes::JobApplication NewApplication(NewName, NewJob, NewWorkHour,
+                                         NewSellary);
+  Temp[Len - 1] = NewApplication;
+  delete[] ApplicationBase;
+  ApplicationBase = Temp;
+  return ApplicationBase;
 }
 
-Classes::Planet* AddPlanet(Classes::Planet *SolarSystem, const char *Name, int diameter,
-               int life, int satelites, int &Len) {
+void Classes::JobApplication::AddApplication(
+    Classes::JobApplication *ApplicationBase, const char *Name, const char *Job,
+    int workHours, int sellary, int &Len) {
   Len += 1;
-  Classes::Planet *Temp = new Classes::Planet[Len];
-  Temp = SolarSystem;
-  Classes::Planet NewPlanet(Name, diameter, life, satelites);
-  Temp[Len - 1] = NewPlanet;
-  delete[] SolarSystem;
-  //SolarSystem = new Classes::Planet[*Len];
-  SolarSystem = Temp;
-  return SolarSystem;
-  //delete[] Temp;
+  Classes::JobApplication *Temp = new Classes::JobApplication[Len];
+  Temp = ApplicationBase;
+  Classes::JobApplication NewApplication(Name, Job, workHours, sellary);
+  Temp[Len - 1] = NewApplication;
+  delete[] ApplicationBase;
+  ApplicationBase = Temp;
+  // return ApplicationBase;
 }
 
-void PlanetFileReading(Classes::Planet *SolarSystem, int Len) {
-  std::ifstream planets("planetsRawInfo.txt");
-  char strin[100]{};
-  int diameter = 0, satellite = 0;
-  bool life = 0;
+void Classes::JobApplication::ApplicationFileReading(
+    Classes::JobApplication *ApplicationBase, int &Len) {
+  std::ifstream applications("ApplicationsRawInfo.txt");
   int jk = 0;
-  while (planets && (planets >> strin >> diameter >> life >> satellite)) {
-    if (jk > Len - 1) {
-      AddPlanet(SolarSystem, strin, diameter, life, satellite, Len);
+  while (applications) {
+    if (jk > Len) {
+      applications >> ApplicationBase[jk];
+      Len += 1;
       ++jk;
     } else {
-      SolarSystem[jk].SetDiameter(diameter);
-      SolarSystem[jk].SetName(strin);
-      SolarSystem[jk].SetLife(life);
-      SolarSystem[jk].SetSatellites(satellite);
+      applications >> ApplicationBase[jk];
       ++jk;
     }
   }
 }
 
-Classes::Planet* ChangeSystem(Classes::Planet *SolarSystem, int Len) {
+Classes::JobApplication *
+Classes::JobApplication::ChangeBase(Classes::JobApplication *ApplicationBase,
+                                    int Len) {
   for (int i = 0; i < Len; ++i) {
-    std::cout << i << "." << SolarSystem[i].GetName() << "\n";
+    std::cout << i << "." << ApplicationBase[i].GetName() << "\n";
   }
-  std::cout << "Какую планету вы хотели бы изменить? (Введите цифру)";
-  int PlanetChange;
-  std::cin >> PlanetChange;
-  std::cout << "Что бы вы хотели изменить? \n 1.Имя \n 2.Диаметр \n 3. Наличие "
-               "жизни \n 4. количество спутников"
+  std::cout << "Какую заявку вы хотели бы изменить? (Введите цифру)";
+  int ApplicationChange;
+  std::cin >> ApplicationChange;
+  std::cout << "Что бы вы хотели изменить? \n 1.Имя заявителя \n 2.работу \n "
+               "3. часы работы \n 4. зарплату"
             << std::endl;
   int Characteristic;
   std::cin >> Characteristic;
 
   switch (Characteristic) {
   case 1: {
-    std::cout << "Задайте новое имя: ";
+    std::cout << "Задайте новое имя заявителя: ";
     char NewName[100]{};
     std::cin >> NewName;
-    SolarSystem[PlanetChange].SetName(NewName);
+    ApplicationBase[ApplicationChange].SetName(NewName);
     std::cout << std::endl;
     break;
   }
   case 2: {
-    std::cout << "Здайте новый диаметр: ";
-    int NewDiametr = 0;
-    std::cin>>NewDiametr;
-    SolarSystem[PlanetChange].SetDiameter(NewDiametr);
+    std::cout << "Здайте новую работу: ";
+    char NewJob[100]{};
+    std::cin >> NewJob;
+    ApplicationBase[ApplicationChange].SetJob(NewJob);
     std::cout << std::endl;
     break;
   }
   case 3: {
-    std::cout << "Здайте Наличие жизни: ";
-    int NewLife = 0;
-    std::cin>>NewLife;
-    SolarSystem[PlanetChange].SetDiameter(NewLife);
+    std::cout << "Задайте часы работы: ";
+    int NewWorkHours = 0;
+    std::cin >> NewWorkHours;
+    ApplicationBase[ApplicationChange].SetWorkHours(NewWorkHours);
     std::cout << std::endl;
     break;
   }
   case 4: {
-    std::cout << "Здайте новое количество спуников: ";
-    int NewSatellites = 0;
-    std::cin>> NewSatellites;
-    SolarSystem[PlanetChange].SetDiameter(NewSatellites);
+    std::cout << "Здайте новую зарплату: ";
+    int NewSellary = 0;
+    std::cin >> NewSellary;
+    ApplicationBase[ApplicationChange].SetWorkHours(NewSellary);
     std::cout << std::endl;
     break;
   }
   default:
-    std::cout << "Ткого варианта не предусмотрено";
+    std::cout << "Такого варианта не предусмотрено";
     break;
   }
-  return SolarSystem;
+  return ApplicationBase;
 }
 
-Classes::Planet* DeletePlanet(Classes::Planet *SolarSystem, int &Len) {
-  Classes::Planet *Temp = new Classes::Planet[Len];
-  if(SolarSystem[0].GetDiameter()) {
-  for (int i = 0; i < Len; ++i) {
-    std::cout << i << "." << SolarSystem[i].GetName() << "\n";
-  }
-  std::cout << "Какую планету вы хотели бы удалить? (Введите цифру)";
-  int PlanetDelete;
-  std::cin >> PlanetDelete;
-  for (int i = 0; i < Len; ++i) {
-    if (i < PlanetDelete ) {
-      Temp[i] = SolarSystem[i];
-    } else if(i> PlanetDelete){
-      Temp[i-1] = SolarSystem[i];
+Classes::JobApplication *Classes::JobApplication::DeleteApplication(
+    Classes::JobApplication *ApplicationBase, int &Len) {
+  Classes::JobApplication *Temp = new Classes::JobApplication[Len];
+  if (ApplicationBase[0].GetWorkHours()) {
+    for (int i = 0; i < Len; ++i) {
+      std::cout << i << "." << ApplicationBase[i].GetName() << "\n";
     }
+    std::cout << "Какую заявку вы хотели бы удалить? (Введите цифру)";
+    int ApplicationDelete;
+    std::cin >> ApplicationDelete;
+    for (int i = 0; i < Len; ++i) {
+      if (i < ApplicationDelete) {
+        Temp[i] = ApplicationBase[i];
+      } else if (i > ApplicationDelete) {
+        Temp[i - 1] = ApplicationBase[i];
+      }
+    }
+    Len -= 1;
+    delete[] ApplicationBase;
+    ApplicationBase = Temp;
+  } else {
+    std::cout << "В файле больше нет заявок";
   }
-  Len -= 1;
-  delete[] SolarSystem;
-  //SolarSystem = new Classes::Planet[Len];
-  SolarSystem = Temp;
-} else {
-  std::cout<< "В файле больше нет планет";
-}
-  return SolarSystem;
-  //delete[] Temp;
+  return ApplicationBase;
 }
 
-void PlanetFileWriting(Classes::Planet *SolarSystem, int Len) {
-  std::ofstream planets("planetsSortedInfo.txt");
+void Classes::JobApplication::ApplicationFileWriting(
+    Classes::JobApplication *ApplicationBase, int Len) {
+  std::ofstream planets("ApplicationsSortedInfo.txt");
   for (int i = 0; i < Len; ++i) {
-    planets << SolarSystem[i].GetName() << " " << SolarSystem[i].GetDiameter()
-            << " " << SolarSystem[i].GetLife() << " "
-            << SolarSystem[i].GetSatellites() << std::endl;
+    planets << ApplicationBase[i];
   }
   planets.close();
 }
-
-} // namespace Functions

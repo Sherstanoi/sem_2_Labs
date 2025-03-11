@@ -3,88 +3,116 @@
 #include <iostream>
 
 namespace Classes {
-class Planet {
+class JobApplication {
 private:
   static int amount;
-  char *name;
-  int diameter;
-  bool life;
-  int satellites;
+  char *Name;
+  char *job;
+  int WorkHours;
+  int Sellary;
 
 public:
-  Planet(const char *planetName, int diameter, bool life, int satellite) {
+  JobApplication(const char *PersonName, const char* Job, int WorkHours, int Sellary) {
     amount++;
-    name = new char[strlen(planetName) + 1];
-    strcpy(name, planetName);
-    name[strlen(planetName) + 1] = '\0';
-    SetDiameter(diameter);
-    SetSatellites(satellite);
-    SetLife(life);
+    Name = new char[strlen(PersonName) + 1];
+    strcpy(Name, PersonName);
+    Name[strlen(PersonName) + 1] = '\0';
+    job = new char[strlen(Job) + 1];
+    strcpy(job, Job);
+    job[strlen(Job) + 1] = '\0';
+    SetWorkHours(WorkHours);
+    SetSellary(Sellary);
   }
-  Planet() {
+  JobApplication() {
     amount++;
-    name = new char[1];
-    name[0] = '\0';
-    SetDiameter(0);
-    SetSatellites(1);
-    SetLife(1);
+    Name = new char[1];
+    Name[0] = '\0';
+    job = new char[1];
+    job[0] = '\0';
+    SetWorkHours(0);
+    SetSellary(1);
   }
-  Planet(const Planet &oldPlanet) {
-    name = new char[strlen(oldPlanet.name) + 1];
-    strcpy(name, oldPlanet.name);
-    name[strlen(oldPlanet.name) + 1] = '\0';
-    SetDiameter(oldPlanet.diameter);
-    SetLife(oldPlanet.life);
-    SetSatellites(oldPlanet.satellites);
+  JobApplication(const JobApplication &OldApplication) {
+    Name = new char[strlen(OldApplication.Name) + 1];
+    strcpy(Name, OldApplication.Name);
+    Name[strlen(OldApplication.Name) + 1] = '\0';
+    SetWorkHours(OldApplication.WorkHours);
+    SetSellary(OldApplication.Sellary);
   }
-  Planet &operator=(const Planet &oldPlanet) {
+
+  JobApplication &operator=(const JobApplication &oldPlanet) {
     if (this == &oldPlanet) {
       return *this;
     }
-    SetName(oldPlanet.name);
-    SetDiameter(oldPlanet.diameter);
-    SetLife(oldPlanet.life);
-    SetSatellites(oldPlanet.satellites);
+    SetName(oldPlanet.Name);
+    SetJob(oldPlanet.job);
+    SetWorkHours(oldPlanet.WorkHours);
+    SetSellary(oldPlanet.Sellary);
     return *this;
   }
-  ~Planet() {
+
+  friend std::ostream &operator<<(std::ostream&out, const JobApplication& obj) {
+    out << "Имя: "<< obj.Name << " Работа:  " << obj.job << " Часы работы:  " << obj.WorkHours << " Зарплата: " << obj.Sellary << std::endl;
+    return out;
+  }
+
+  friend JobApplication &operator>>(std::istream& in, JobApplication& obj) {
+    char strin[100]{};
+    char secondStrin[100]{};
+    int workHours = 0, Sellary = 0;
+    in >> strin >> secondStrin >> workHours >> Sellary;
+
+    obj.Name = new char[strlen(strin) + 1];
+    strcpy(obj.Name,  strin);
+    obj.Name[strlen(strin) + 1] = '\0';
+
+    obj.job = new char[strlen(secondStrin) + 1];
+    strcpy(obj.job, secondStrin);
+    obj.job[strlen(secondStrin) + 1] = '\0';
+
+    obj.SetWorkHours(workHours);
+    obj.SetSellary(Sellary);
+    return obj;
+  }
+
+  ~JobApplication() {
     amount--;
-    delete[] name;
+    delete[] Name;
   }
 
   char *GetName();
-  int GetDiameter();
-  int GetSatellites();
-  bool GetLife();
+  char* GetJob();
+  int GetWorkHours();
+  int GetSellary();
 
   void SetName(char *Name);
-  void SetDiameter(int diameter);
-  void SetSatellites(int Satellites);
-  void SetLife(bool life);
+  void SetWorkHours(int diameter);
+  void SetSellary(int Satellites);
+  void SetJob(char* Job);
 
-  //friend void ChangePlaces(Planet *SolarSystem, int SolarAmount);
-};
-class Applications {
-private:
-public:
+  static void ApplicationFileReading(Classes::JobApplication *ApplicationBase,
+                                     int &Len);
+
+  static void ApplicationFileWriting(Classes::JobApplication *ApplicationBase,
+                                     int Len);
+
+  static Classes::JobApplication *
+  AddApplication(Classes::JobApplication *ApplicationBase, int &Len);
+
+  static void AddApplication(Classes::JobApplication *ApplicationBase,
+                             const char *Name, const char* job, int workHours, int sellary,
+                             int &Len);
+
+  static Classes::JobApplication *
+  DeleteApplication(Classes::JobApplication *ApplicationBase, int &Len);
+
+  static void SortAppications(Classes::JobApplication *ApplicationBase,
+                              int SolarAmount);
+
+  static void PrintResult(Classes::JobApplication *planets, int Len);
+
+  static Classes::JobApplication *
+  ChangeBase(Classes::JobApplication *ApplicationBase, int Len);
 };
 
 } // namespace Classes
-namespace Functions {
-void PlanetFileReading(Classes::Planet *SolarSystem, int Len); //done
-
-void PlanetFileWriting(Classes::Planet *SolarSystem, int Len);
-
-Classes::Planet* AddPlanet(Classes::Planet *SolarSystem, int &Len); //done
-
-void AddPlanet(Classes::Planet *SolarSystem, const char *Name, int diameter,
-               int life, int satelites, int *Len); //done
-
-Classes::Planet* DeletePlanet(Classes::Planet *SolarSystem, int &Len);
-
-void SortPlanets(Classes::Planet *SolarSystem, int SolarAmount);
-
-void PrintResult(Classes::Planet *planets, int Len); // done
-
-Classes::Planet* ChangeSystem(Classes::Planet *SolarSystem, int Len);
-}

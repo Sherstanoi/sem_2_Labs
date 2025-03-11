@@ -69,28 +69,28 @@ include CMakeFiles/lab2.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/lab2.dir/flags.make
 
-CMakeFiles/lab2.dir/Lab_2.cpp.o: CMakeFiles/lab2.dir/flags.make
-CMakeFiles/lab2.dir/Lab_2.cpp.o: Lab_2.cpp
-CMakeFiles/lab2.dir/Lab_2.cpp.o: CMakeFiles/lab2.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/lab2.dir/Lab_2.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab2.dir/Lab_2.cpp.o -MF CMakeFiles/lab2.dir/Lab_2.cpp.o.d -o CMakeFiles/lab2.dir/Lab_2.cpp.o -c /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/Lab_2.cpp
+CMakeFiles/lab2.dir/Lab_2_pers.cpp.o: CMakeFiles/lab2.dir/flags.make
+CMakeFiles/lab2.dir/Lab_2_pers.cpp.o: Lab_2_pers.cpp
+CMakeFiles/lab2.dir/Lab_2_pers.cpp.o: CMakeFiles/lab2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/lab2.dir/Lab_2_pers.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab2.dir/Lab_2_pers.cpp.o -MF CMakeFiles/lab2.dir/Lab_2_pers.cpp.o.d -o CMakeFiles/lab2.dir/Lab_2_pers.cpp.o -c /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/Lab_2_pers.cpp
 
-CMakeFiles/lab2.dir/Lab_2.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab2.dir/Lab_2.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/Lab_2.cpp > CMakeFiles/lab2.dir/Lab_2.cpp.i
+CMakeFiles/lab2.dir/Lab_2_pers.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab2.dir/Lab_2_pers.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/Lab_2_pers.cpp > CMakeFiles/lab2.dir/Lab_2_pers.cpp.i
 
-CMakeFiles/lab2.dir/Lab_2.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab2.dir/Lab_2.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/Lab_2.cpp -o CMakeFiles/lab2.dir/Lab_2.cpp.s
+CMakeFiles/lab2.dir/Lab_2_pers.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab2.dir/Lab_2_pers.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/Lab_2_pers.cpp -o CMakeFiles/lab2.dir/Lab_2_pers.cpp.s
 
 # Object files for target lab2
 lab2_OBJECTS = \
-"CMakeFiles/lab2.dir/Lab_2.cpp.o"
+"CMakeFiles/lab2.dir/Lab_2_pers.cpp.o"
 
 # External object files for target lab2
 lab2_EXTERNAL_OBJECTS =
 
-lab2: CMakeFiles/lab2.dir/Lab_2.cpp.o
+lab2: CMakeFiles/lab2.dir/Lab_2_pers.cpp.o
 lab2: CMakeFiles/lab2.dir/build.make
 lab2: CMakeFiles/lab2.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/nikita/Sherst_2_Sem_Labs/sem_2_Labs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable lab2"

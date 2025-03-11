@@ -129,29 +129,29 @@ lab2/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/build
 .PHONY : lab2/fast
 
-Lab_2.o: Lab_2.cpp.o
-.PHONY : Lab_2.o
+Lab_2_pers.o: Lab_2_pers.cpp.o
+.PHONY : Lab_2_pers.o
 
 # target to build an object file
-Lab_2.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/Lab_2.cpp.o
-.PHONY : Lab_2.cpp.o
+Lab_2_pers.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/Lab_2_pers.cpp.o
+.PHONY : Lab_2_pers.cpp.o
 
-Lab_2.i: Lab_2.cpp.i
-.PHONY : Lab_2.i
+Lab_2_pers.i: Lab_2_pers.cpp.i
+.PHONY : Lab_2_pers.i
 
 # target to preprocess a source file
-Lab_2.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/Lab_2.cpp.i
-.PHONY : Lab_2.cpp.i
+Lab_2_pers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/Lab_2_pers.cpp.i
+.PHONY : Lab_2_pers.cpp.i
 
-Lab_2.s: Lab_2.cpp.s
-.PHONY : Lab_2.s
+Lab_2_pers.s: Lab_2_pers.cpp.s
+.PHONY : Lab_2_pers.s
 
 # target to generate assembly for a file
-Lab_2.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/Lab_2.cpp.s
-.PHONY : Lab_2.cpp.s
+Lab_2_pers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/Lab_2_pers.cpp.s
+.PHONY : Lab_2_pers.cpp.s
 
 # Help Target
 help:
@@ -162,9 +162,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... lab2"
-	@echo "... Lab_2.o"
-	@echo "... Lab_2.i"
-	@echo "... Lab_2.s"
+	@echo "... Lab_2_pers.o"
+	@echo "... Lab_2_pers.i"
+	@echo "... Lab_2_pers.s"
 .PHONY : help
 
 
