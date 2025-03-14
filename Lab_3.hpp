@@ -17,11 +17,13 @@ class Drob {
     Drob(Drob& alpha);
     void SetDrob(int num, int den);
 
+    friend void ChangeDrob(Drob& alpha);
+
     friend Drob& operator+(const Drob& alpha,const Drob& Betta);
     friend Drob& operator-(const Drob& alpha,const Drob& Betta);
     friend Drob& operator*(const Drob& alpha,const Drob& Betta);
     friend Drob& operator/(const Drob& alpha,const Drob& Betta);
     friend std::ostream& operator<<(std::ostream& out,const Drob& alpha);
     friend std::istream& operator+(std::istream& in,const Drob& Betta);
-    friend Drob& operator=(const Drob& alpha);
+    Drob& operator=(const Drob& alpha);
 };
