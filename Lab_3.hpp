@@ -18,15 +18,25 @@ class Drob {
     Drob(Drob& alpha);
     Drob(const char* unturn);
 
+    int GetNumerator();
+    int GetDenominator();
+    int GetFull();
+
+    void SetNumerator(int NewNum);
+    void SetDenominator(int NewDen);
+    void SetFull(int NewFull);
+
     void SetDrob(int num, int den);
 
     void ChangeDrob();
 
     Drob& operator=(const Drob& alpha);
-    Drob& operator+(const Drob& alpha);
-    Drob& operator-(const Drob& alpha);
-    Drob& operator*(const Drob& alpha);
-    Drob& operator/(const Drob& alpha);
+    friend Drob& operator+(Drob alpha, Drob betta);
+    friend Drob& operator+=(Drob& alpha, Drob& betta);
+    friend Drob& operator+(Drob alpha, double betta);
+    friend Drob& operator+(double betta,Drob alpha);
+    friend Drob& operator+=(double betta,Drob& alpha);
+    friend Drob& operator+=(Drob& alpha, double betta);
 
     friend std::ostream& operator<<(std::ostream& out,const Drob& alpha);
     friend std::istream& operator>>(std::istream& in,Drob& alpha);
@@ -34,5 +44,5 @@ class Drob {
     ~Drob() {
         delete[] Unturned;
     }
-    void SetUnturned(char* betta);
+    void SetUnturned(const char* betta);
 };
