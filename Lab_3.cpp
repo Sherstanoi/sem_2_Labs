@@ -237,7 +237,7 @@ std::ostream &operator<<(std::ostream &out, const Drob &alpha) {
   return out;
 }
 std::istream &operator>>(std::istream &in, Drob &alpha) {
-  char betta[100];
+  char betta[99];
   in.ignore();
   in.getline(betta, 100);
   alpha.SetUnturned(betta);
