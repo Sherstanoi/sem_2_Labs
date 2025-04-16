@@ -96,6 +96,7 @@ void Drob::ChangeDrob() {
   int schet = 0;
   int schetVnutri = 0;
   int MinusCheck = 1;
+  std::cout<<Unturned;
   if (Unturned[0] == '-') {
     MinusCheck = -1;
     schet += 1;
@@ -410,17 +411,17 @@ std::istream &operator>>(std::istream &in, Drob &alpha) {
     return in;
   }
   int schet = 0;
-  for(int i=0; i<strlen(betta);++i) {
-    if(betta[i] = '/' || betta[i] == ',') {
-      schet = i+1;
-      break;
-    }
-  }
-  if(strlen(betta)-schet > 10) {
-    std::cout << "Введены некорректные данные" <<std::endl;
-    alpha.errorFlag = true;
-    return in;
-  }
+  // for(int i=0; i<strlen(betta);++i) {
+  //   if(betta[i] = '/' || betta[i] == ',') {
+  //     schet = i+1;
+  //     break;
+  //   }
+  // }
+  // if(strlen(betta)-schet > 10) {
+  //   std::cout << "Введены некорректные данные" <<std::endl;
+  //   alpha.errorFlag = true;
+  //   return in;
+  // }
   alpha.SetUnturned(betta);
   alpha.ChangeDrob();
   return in;
