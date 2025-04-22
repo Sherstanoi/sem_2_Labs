@@ -1,188 +1,202 @@
 #include <iostream>
-// Файл MyStack.h
-// Шаблонный класс MyStack на основе односвязного списка.
-#ifndef MyStack_hpp  // защита от повторной компиляции
-#define MyStack_hpp  // модуль подключен
 
-// Шаблонный класс ListNode (узел односвязного списка)
-template<class INF>
+#ifndef lab_4_hpp
+#define lab_4_hpp
+
+template <class INF>
 class MyStack;
-template<class INF, class FRIEND>
-class ListNode  // узел списка
-{
- private:
-    INF d;                              // информационная часть узла
-    ListNode* next;                     // указатель на следующий узел списка
-    ListNode(void) { next = nullptr; }  // конструктор
-    ListNode(const ListNode& other) {
-        this->d = other.d;
-        this->next = nullptr;
-    }
-    ListNode& operator=(const ListNode& other) {
-        if (this != &other) {
-            this->d = other.d;
-            this->next = other.next;
-        }
-        return *this;
-    }
-    friend FRIEND;
-    template<class T>
-    friend std::ostream& operator<<(std::ostream& out, const MyStack<T>& el);
-};
 
-// Шаблонный класс MyStack на основе односвязного списка.
+template <class INF, class FRIEND>
+class ListNode {
+private:
+  INF Number;
+  ListNode *NextElementAddress;
 
-
-template<class INF>
-std::ostream& operator<<(std::ostream& out, const MyStack<INF>& el);
-template<class INF>
-
-class MyStack {
-    typedef class ListNode<INF, MyStack<INF>> Node;
-    Node* top;
-
- public:
-
-    MyStack(void);      // конструктор
-    ~MyStack(void);     // освободить динамическую память
-    bool empty(void);   // стек пустой?
-    bool push(INF n);   // добавить узел в вершину стека
-    bool pop(void);     // удалить узел из вершины стека
-    INF top_inf(void);  // считать информацию из вершины стека
-    MyStack(const MyStack& other);
-    MyStack<INF>& operator=(const MyStack<INF>& other);
-
-
-
-    friend std::ostream& operator<< <>(std::ostream& out, const MyStack& el);
-};
-template<class INF>
-std::ostream& operator<<(std::ostream& out, const MyStack<INF>& el) {
-
-    typename MyStack<INF>::Node* p = el.top;
-    out << p->d;
-    p = p->next;
-    while (p) {
-        out << "*" << p->d;
-        p = p->next;
-    }
-
-    return out;
-}
-template<class DATA>
-void Multipliers(int n, MyStack<DATA>& stack) {
-    for (int i = 2; i <= n; ++i) {
-        while (n % i == 0) {
-            n /= i;
-
-            stack.push(i);
-        }
-    }
-}
-template<class DATA>
-void Reverse(MyStack<DATA>& stack) {
-    MyStack<DATA> temp;
-
-    while (!stack.empty()) {
-        temp.push(stack.top_inf());
-        stack.pop();
-    }
-    stack = temp;
-}
-template<class INF>
-void Print(const MyStack<INF>& stack, int n) {
-    std::cout << n << "=";
-    std::cout << stack;
-    std::cout << '\n';
-}
-
-template<class INF>
-MyStack<INF>::MyStack(void) {
-    top = nullptr;
-}
-template<class INF>
-MyStack<INF>::~MyStack(void) {
-    while (!empty()) {
-        Node* old = top;
-        top = top->next;
-        delete old;
-    }
-}
-template<class INF>
-MyStack<INF>::MyStack(const MyStack& other) {
-    top = nullptr;
-    if (other.top) {
-        Node* current = other.top;
-        Node* prev = nullptr;
-        while (current) {
-            Node* newNode = new Node;
-            newNode->d = current->d;
-            if (!top) {
-                top = newNode;
-            } else {
-                prev->next = newNode;
-            }
-            prev = newNode;
-            current = current->next;
-        }
-    }
-}
-template<class INF>
-MyStack<INF>& MyStack<INF>::operator=(const MyStack& other) {
-    if (this == &other){
-        return *this;
-    }
-    while (!empty()) {
-        pop();
-    }
-    if (other.top) {
-        Node* current = other.top;
-        Node* prev = nullptr;
-        while (current) {
-            Node* newNode = new Node;
-            newNode->d = current->d;
-            if (!top) {
-                top = newNode;
-            } else {
-                prev->next = newNode;
-            }
-            prev = newNode;
-            current = current->next;
-        }
+  ListNode() {
+    NextElementAddress = nullptr;
+  }
+  ListNode(const ListNode &betta) {
+    *this->Number = betta.Number;
+    *this->NextElementAddress = nullptr;
+  }
+  ListNode &operator=(const ListNode &betta) {
+    if (this != &betta) {
+      *this->Number = betta.Number;
+      *this->NextElementAddressext = betta.NextElementAddress;
     }
     return *this;
-}
-template<class INF>
-bool MyStack<INF>::empty(void) {
-    if (top) {
-        return false;
-    }
-    return true;
-}
-template<class INF>
-bool MyStack<INF>::push(INF n) {
-    Node* newNode = new Node{};
-    newNode->d = n;
-    newNode->next = top;
-    top = newNode;
-    return true;
-}
-template<class INF>
-bool MyStack<INF>::pop(void) {
-    if (!empty()) {
-        Node* t = top;
-        top = top->next;
-        delete t;
-        return true;
-    }
+  }
+
+  friend FRIEND;
+  template <class T>
+  friend std::ostream &operator<<(std::ostream &out, const MyStack<T> &Element);
+};
+
+template <class INF>
+class MyStack {
+  private:
+    typedef class ListNode<INF, MyStack<INF>> Node;
+    Node *FirstElement;
+
+  public:
+    MyStack(void);
+    ~MyStack(void);
+
+    bool EmptyCheck();
+    void PushElement(INF n);
+    void PopElement();
+    INF FirstElement_inf();
+
+    MyStack(const MyStack &other);
+    MyStack<INF> &operator=(const MyStack<INF> &other);
+    MyStack<INF> &operator+( MyStack<INF> &other);
+
+    friend std::ostream &operator<< <>(std::ostream &out, const MyStack &Element);
+};
+
+template <class INF>
+bool MyStack<INF>::EmptyCheck() {
+  if (FirstElement) {
     return false;
+  }
+  return true;
 }
-template<class INF>
-INF MyStack<INF>::top_inf(void) {
-    if (empty()) {
-        throw std::runtime_error("Стек пуст");
+
+template <class INF>
+void MyStack<INF>::PushElement(INF InputNumber) {
+  Node *NewStackElement = new Node;
+  NewStackElement->Number = InputNumber;
+  NewStackElement->NextElementAddress = FirstElement;
+  FirstElement = NewStackElement;
+  return;
+}
+
+template <class INF>
+void MyStack<INF>::PopElement() {
+  if (!EmptyCheck()) {
+    Node *DeletingElment = FirstElement;
+    FirstElement = FirstElement->NextElementAddress;
+    delete DeletingElment;
+    return;
+  } else {
+    std::cout<<"В стеке нет элементов" << std::endl;
+    return;
+  }
+  return;
+}
+
+template <class INF>
+INF MyStack<INF>::FirstElement_inf() {
+  if (EmptyCheck()) {
+    std::cout<<"В стеке нет элементов" << '\n';
+    return 0;
+  }
+  return FirstElement->Number;
+}
+
+template <class INF> MyStack<INF>::MyStack() {
+  FirstElement = nullptr;
+}
+
+template <class INF> MyStack<INF>::~MyStack() {
+  while (!EmptyCheck()) {
+    PopElement();
+  }
+}
+
+template <class INF>
+MyStack<INF> &MyStack<INF>::operator=(const MyStack &other) {
+  FirstElement = nullptr;
+  if (this == &other) {
+    return *this;
+  }
+  while (!EmptyCheck()) {
+    PopElement();
+  }
+  if (other.FirstElement) {
+    Node *CurrentElement = other.FirstElement;
+    Node *PreviousElement = nullptr;
+    while (CurrentElement) {
+      Node *NewStackElement = new Node;
+      NewStackElement->Number = CurrentElement->Number;
+      if (!FirstElement) {
+        FirstElement = NewStackElement;
+      } else {
+        PreviousElement->NextElementAddress = NewStackElement;
+      }
+      PreviousElement = NewStackElement;
+      CurrentElement = CurrentElement->NextElementAddress;
     }
-    return top->d;
+  }
+  return *this;
+}
+
+template <class INF>
+MyStack<INF>& MyStack<INF>::operator+(MyStack &other) {
+  Node* CurrentElement =  new Node;
+  CurrentElement = FirstElement;
+  while(CurrentElement->NextElementAddress) {
+    CurrentElement = CurrentElement->NextElementAddress;
+  }
+  CurrentElement->NextElementAddress = other.FirstElement;
+  while (!(other.EmptyCheck())) {
+    other.PopElement();
+    std::cout<<other;
+  }
+  return *this;
+}
+
+template <class INF>
+MyStack<INF>::MyStack(const MyStack &other) { //ОШИБКА МОЖЕТ БЫТЬ ТУТ
+  *this = other;
+}
+
+template <class INF>
+std::ostream &operator<<(std::ostream &out, const MyStack<INF> &Element) {
+  typename MyStack<INF>::Node *CurrentElement = Element.FirstElement;
+  out << CurrentElement->Number;
+  CurrentElement = CurrentElement->NextElementAddress;
+  while (CurrentElement) {
+    out << "*" << CurrentElement->Number;
+    CurrentElement = CurrentElement->NextElementAddress;
+  }
+
+  return out;
+}
+
+template <class DATA>
+void FindDeviders(int Devisible, MyStack<DATA> &stack) {
+  for (int i = 2; i <= Devisible; ++i) {
+     if(Devisible % i == 0) {
+      Devisible /= i;
+      stack.PushElement(i);
+      i--;
+    }
+  }
+}
+
+template <class DATA>
+void FlipTheStack(MyStack<DATA> &stack) {
+  MyStack<DATA> TemporaryStack;
+  while (!(stack.EmptyCheck())) {
+    TemporaryStack.PushElement(stack.FirstElement_inf());
+    stack.PopElement();
+  }
+  stack = TemporaryStack;
+}
+
+template <class INF>
+void PrintTheStack(const MyStack<INF> &stack, int InputNumber) {
+  std::cout << InputNumber << " = " << stack << std::endl;
+}
+
+template <class INF>
+void PrintTheSumStack(const MyStack<INF> &stack) {
+  std::cout << "Сложение стеков: " << stack <<std::endl;
 }
 
 #endif
+
+namespace Functions{
+  void StartProgramm();
+}
