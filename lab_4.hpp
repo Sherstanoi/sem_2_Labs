@@ -134,20 +134,18 @@ MyStack<INF> &MyStack<INF>::operator=(const MyStack &other) {
 template <class INF>
 MyStack<INF>& MyStack<INF>::operator+(MyStack &other) {
   Node* CurrentElement =  new Node;
+  Node* OtherElement = new Node;
   CurrentElement = FirstElement;
-  while(CurrentElement->NextElementAddress) {
-    CurrentElement = CurrentElement->NextElementAddress;
-  }
-  CurrentElement->NextElementAddress = other.FirstElement;
-  while (!(other.EmptyCheck())) {
-    other.PopElement();
-    std::cout<<other;
+  OtherElement = other.FirstElement;
+    while(OtherElement) {
+    PushElement(OtherElement->Number);
+    OtherElement = OtherElement->NextElementAddress;
   }
   return *this;
 }
 
 template <class INF>
-MyStack<INF>::MyStack(const MyStack &other) { //ОШИБКА МОЖЕТ БЫТЬ ТУТ
+MyStack<INF>::MyStack(const MyStack &other) {
   *this = other;
 }
 
