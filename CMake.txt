@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.23)
+
+set(project "lab7")
+project(${project})
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/main7.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/lab7.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Product.cpp
+)
+
+set(HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/lab7.hpp
+)
+
+add_subdirectory(MyStack)
+
+set(${project}_SOURCE_LIST
+        ${${project}_SOURCES})
+
+
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
+if(ENABLE_DEBUG)
+    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -g3)
+endif()
+target_link_libraries(${project} Animals)
+target_link_libraries(${project} Features)
+target_link_libraries(${project} MyStack)
