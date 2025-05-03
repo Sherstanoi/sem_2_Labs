@@ -2,77 +2,103 @@
 #include "Lab5Fun.hpp"
 
 void start() {
-    MyVector v("Hello!");
-    v.AddElement("Привет!");
-    v.AddElement("Привет!");
-    v.AddElement("Привет!");
-    v.AddElement("Привет!");
-    v.AddElement("Привет!");
-    std::cout << "Вектор v: " << v << std::endl;
-    v.AddElement("Привет!");
-    v.AddElement("Привет!");
-    v.AddElement("Привет!");
-    std::cout << "Вектор v: " << v << std::endl;
-    MyVector v1 = v;
-    std::cout << "Вектор v1: " << v1 << std::endl;
-    for (int i = 0; i < OriginMaxSize; i++)
-        v1.DeleteElement(0);
-    std::cout << "Вектор v1: " << v1 << std::endl;
-    MySet s("Yes"), s1, s2;
-    s.AddElement("Привет!");
-    s.AddElement("No");
-    const char* str = "Hello!";
-    s.AddElement(str);
-    std::cout << "Множество s: " << s << std::endl;
-    s1.AddElement("Cat");
-    s1.AddElement("No");
-    s1.AddElement("Привет!");
-    std::cout << "Множество s1: " << s1 << std::endl;
-    s2 = s1 - s;
-    std::cout << "Множество s2=s1-s: " << s2 << std::endl;
-    std::cout << "Множество s1: " << s1 << std::endl;
-    std::cout << "Множество s: " << s << std::endl;
-    s2 = s - s1;
-    std::cout << "Множество s2=s-s1: " << s2 << std::endl;
-    std::cout << "Множество s1: " << s1 << std::endl;
-    std::cout << "Множество s: " << s << std::endl;
-    s2 = s1 + s;
-    std::cout << "Множество s2=s1+s: " << s2 << std::endl;
-    std::cout << "Множество s1: " << s1 << std::endl;
-    std::cout << "Множество s: " << s << std::endl;
-    s2 = s1 * s;
-    std::cout << "Множество s2=s1*s: " << s2 << std::endl;
-    std::cout << "Множество s1: " << s1 << std::endl;
-    std::cout << "Множество s: " << s << std::endl;
-    MySet s3 = s2;
-    std::cout << "Множество s3=s2: " << s3 << std::endl;
-    if (s3 == s2)
-        std::cout << "Множество s3=s2\n";
-    else
-        std::cout << "Множество s3!=s2\n";
-    if (s3 == s1)
-        std::cout << "Множество s3=s1\n";
-    else
-        std::cout << "Множество s3!=s1\n";
-    if (s1 == s3)
-        std::cout << "Множество s1=s3\n";
-    else
-        std::cout << "Множество s1!=s3\n";
-    MySet s9(1);
-    s9.AddElement(4);
-    s9.AddElement(5);
-    s9.AddElement(6);
-    MySet s10(1);
-    s10.AddElement(2);
-    s10.AddElement(3);
-    s10.AddElement(4);
-    std::cout<<s9<<std::endl;
-    std::cout<<s10<<std::endl;
-    MySet ss=s9+s10;
-    std::cout<<"+"<<ss<<std::endl;
-    MySet ss1=s9*s10;
-    std::cout<<"*"<<ss1<<std::endl;
-    ss=s9-s10;
-    std::cout<<"-"<<ss<<std::endl;
+    bool Flag = true;
+    while(Flag) {
+        int Choice = 0;
+        std::cout<< "Какой функцией вы хотели бы воспользоваться? \n1.вывести задние по ТЗ \n2. закончить \n";
+        std::cin>> Choice;
+        MySet Alpha("aaa");
+        std::cout<<Alpha.IsInArrange("aaa") << std::endl;
+        std::cout<<Alpha.IsInArrange("bbb")<<std::endl;
+        MySet Betta(1);
+        std::cout<<Betta.IsInArrange(1) << std::endl;
+        std::cout<<Betta.IsInArrange(2)<<std::endl;
+        switch (Choice)
+        {
+        case 1: {
+            MyVector TestVector("Hello!");
+            TestVector.AddElement("How");
+            TestVector.AddElement("Are");
+            TestVector.AddElement("You");
+            TestVector.AddElement("Doing?");
+            TestVector.AddElement("Привет!");
+            std::cout << "Вектор TestVector: " << TestVector << std::endl;
+            TestVector.AddElement("Как");
+            TestVector.AddElement("твои");
+            TestVector.AddElement("дела?");
+            std::cout << "Вектор TestVector: " << TestVector << std::endl;
+            MyVector SecondTestVector = TestVector;
+            std::cout << "Вектор SecondTestVector: " << SecondTestVector << std::endl;
+            for (int i = 0; i < OriginMaxSize; i++)
+                SecondTestVector.DeleteElement(0);
+            std::cout << "Вектор SecondTestVector: " << SecondTestVector << std::endl;
+            std::cout<<"\n";
+            MySet FirstTestSet("Yes"), SecondTestSet, ThirdTestSet;
+            FirstTestSet.AddElement("Привет!");
+            FirstTestSet.AddElement("No");
+            const char* Line = "Hello!";
+            FirstTestSet.AddElement(Line);
+            std::cout << "Множество FirstTestSet: " << FirstTestSet << std::endl;
+            SecondTestSet.AddElement("Cat");
+            SecondTestSet.AddElement("No");
+            SecondTestSet.AddElement("Привет!");
+            std::cout << "Множество SecondTestSet: " << SecondTestSet << std::endl;
+            ThirdTestSet = SecondTestSet - FirstTestSet;
+            std::cout << "Множество ThirdTestSet=SecondTestSet-FirstTestSet: " << ThirdTestSet << std::endl;
+            std::cout << "Множество SecondTestSet: " << SecondTestSet << std::endl;
+            std::cout << "Множество FirstTestSet: " << FirstTestSet << std::endl;
+            ThirdTestSet = FirstTestSet - SecondTestSet;
+            std::cout << "Множество ThirdTestSet=FirstTestSet-SecondTestSet: " << ThirdTestSet << std::endl;
+            std::cout << "Множество SecondTestSet: " << SecondTestSet << std::endl;
+            std::cout << "Множество FirstTestSet: " << FirstTestSet << std::endl;
+            ThirdTestSet = SecondTestSet + FirstTestSet;
+            std::cout << "Множество ThirdTestSet=SecondTestSet+FirstTestSet: " << ThirdTestSet << std::endl;
+            std::cout << "Множество SecondTestSet: " << SecondTestSet << std::endl;
+            std::cout << "Множество FirstTestSet: " << FirstTestSet << std::endl;
+            ThirdTestSet = SecondTestSet * FirstTestSet;
+            std::cout << "Множество ThirdTestSet=SecondTestSet*FirstTestSet: " << ThirdTestSet << std::endl;
+            std::cout << "Множество SecondTestSet: " << SecondTestSet << std::endl;
+            std::cout << "Множество FirstTestSet: " << FirstTestSet << std::endl;
+            MySet FourthTestSet = ThirdTestSet;
+            std::cout << "Множество FourthTestSet=ThirdTestSet: " << FourthTestSet << std::endl;
+            if (FourthTestSet == ThirdTestSet)
+                std::cout << "Множество FourthTestSet=ThirdTestSet\n";
+            else
+                std::cout << "Множество FourthTestSet!=ThirdTestSet\n";
+            if (FourthTestSet == SecondTestSet)
+                std::cout << "Множество FourthTestSet=SecondTestSet\n";
+            else
+                std::cout << "Множество FourthTestSet!=SecondTestSet\n";
+            if (SecondTestSet == FourthTestSet)
+                std::cout << "Множество SecondTestSet=FourthTestSet\n";
+            else
+                std::cout << "Множество SecondTestSet!=FourthTestSet\n";
+            std::cout<<"\n";
+            MySet FifthTestSet(1);
+            FifthTestSet.AddElement(4);
+            FifthTestSet.AddElement(5);
+            FifthTestSet.AddElement(6);
+            MySet SixthTestSet(1);
+            SixthTestSet.AddElement(2);
+            SixthTestSet.AddElement(3);
+            SixthTestSet.AddElement(4);
+            std::cout<<FifthTestSet<<std::endl;
+            std::cout<<SixthTestSet<<std::endl;
+            MySet PreLastTestSet=FifthTestSet+SixthTestSet;
+            std::cout<<"+"<<PreLastTestSet<<std::endl;
+            MySet LastTestSet=FifthTestSet*SixthTestSet;
+            std::cout<<"*"<<LastTestSet<<std::endl;
+            PreLastTestSet=FifthTestSet-SixthTestSet;
+            std::cout<<"-"<<PreLastTestSet<<std::endl;
+            break;
+            }
+        case 2:
+            Flag = false;
+            break;
+        default:
+            std::cout<<"Введены неправильныеданные";
+            break;
+        }
+    }
     return;
 }

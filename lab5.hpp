@@ -9,7 +9,7 @@ class MyVector {
  protected:
     int CurMaxSize;
     int CurSize;
-    Any* arrange;
+    Any* Arrange;
     void ChangeArrSize();
 
  public:
@@ -33,15 +33,17 @@ void MyVector<Any>::ChangeArrSize() {
     CurMaxSize *= 2;
     Any* NewArrange = new Any[CurMaxSize];
     for (int i = 0; i < CurSize; ++i) {
-        NewArrange[i] = arrange[i];
+        NewArrange[i] = Arrange[i];
     }
-    delete[] arrange;
-    arrange = NewArrange;
+    delete[] Arrange;
+    Arrange = NewArrange;
 }
 
 template<class Any>
-MyVector<Any>::MyVector(Any element , int MaxSize) : CurMaxSize(MaxSize), CurSize(0) {
-    arrange = new Any[CurMaxSize];
+MyVector<Any>::MyVector(Any element , int MaxSize) {
+    CurMaxSize = MaxSize;
+    CurSize = 0;
+    Arrange = new Any[CurMaxSize];
     if (element) {
         AddElement(element);
     }
@@ -51,10 +53,10 @@ template<>
 MyVector<char*>::MyVector(const MyVector& Vector) {
     CurMaxSize = Vector.CurMaxSize;
     CurSize = Vector.CurSize;
-    arrange = new char*[CurMaxSize];
+    Arrange = new char*[CurMaxSize];
     for (int i = 0; i < CurSize; ++i) {
-        arrange[i]=new char[strlen(Vector[i])+1];
-        strcpy(arrange[i],Vector[i]);
+        Arrange[i]=new char[strlen(Vector[i])+1];
+        strcpy(Arrange[i],Vector[i]);
     }
 }
 
@@ -62,32 +64,32 @@ template<class Any>
 MyVector<Any>::MyVector(const MyVector& Vector) {
     CurMaxSize = Vector.CurMaxSize;
     CurSize = Vector.CurSize;
-    arrange = new Any[CurMaxSize];
+    Arrange = new Any[CurMaxSize];
     for (int i = 0; i < CurSize; ++i) {
-        arrange[i] = Vector.arrange[i];
+        Arrange[i] = Vector.Arrange[i];
     }
 }
 
 template<>
 MyVector<char*>::~MyVector() {
     for(int i =0;i<CurMaxSize;++i){
-        delete[] arrange[i];
+        delete[] Arrange[i];
     }
-    delete[] arrange;
+    delete[] Arrange;
 }
 
 template<class Any>
 MyVector<Any>::~MyVector() {
-    delete[] arrange;
+    delete[] Arrange;
 }
 
 template<>
-void MyVector<char*>::AddElement(char* element) {
+void MyVector<char*>::AddElement(char* element) {  //ЖЕЛАТЕЛЬНО РАЗОБРАТЬСЯ, ПОЧЕМУ ПРИ СМЕНЕ КУРСАЙЗ++ ВСЁ ЛОМАЕТСЯ
     if (CurSize >= CurMaxSize) {
         ChangeArrSize();
     }
-    arrange[CurSize]=new char[strlen(element)+1];
-    strcpy(arrange[CurSize],element);
+    Arrange[CurSize]=new char[strlen(element)+1];
+    strcpy(Arrange[CurSize],element);
     ++CurSize;
 }
 
@@ -96,7 +98,7 @@ void MyVector<Any>::AddElement(Any element) {
     if (CurSize >= CurMaxSize) {
         ChangeArrSize();
     }
-    arrange[CurSize] = element;
+    Arrange[CurSize] = element;
     ++CurSize;
 }
 
@@ -105,10 +107,12 @@ bool MyVector<char*>::DeleteElement(int i) {
     if (CurSize == 0 || i < 0 || i >= CurSize) {
         return false;
     }
-    for (int j = i; j < CurSize - 1; ++j) {
-        delete[] arrange[j];
-        arrange[j]=new char[strlen(arrange[j+1])+1];
-        strcpy(arrange[j],arrange[j+1]);
+    for (int j = 0; j < CurSize - 1; ++j) {
+        if(j>=i) {
+            delete[] Arrange[j];
+            Arrange[j]=new char[strlen(Arrange[j+1])+1];
+            strcpy(Arrange[j],Arrange[j+1]);
+        }
     }
     --CurSize;
     if (CurSize < CurMaxSize / 4) {
@@ -122,8 +126,10 @@ bool MyVector<Any>::DeleteElement(int i) {
     if (CurSize == 0 || i < 0 || i >= CurSize) {
         return false;
     }
-    for (int j = i; j < CurSize - 1; ++j) {
-        arrange[j] = arrange[j + 1];
+    for (int j = 0; j < CurSize - 1; ++j) {
+        if(j>=i) {
+            Arrange[j] = Arrange[j + 1];
+        }
     }
     --CurSize;
     if (CurSize < CurMaxSize / 4) {
@@ -134,27 +140,27 @@ bool MyVector<Any>::DeleteElement(int i) {
 
 template<>
 void MyVector<char*>::SortVector() {
-    if (!arrange) {
+    if (!Arrange) {
         return;
     }
     for (int i = 0; i < CurSize; ++i) {
         for (int j = 0; j < CurSize - i - 1; ++j) {
-            if (!(strcmp(arrange[j + 1], arrange[j]) > 0)) {
-                std::swap(arrange[j], arrange[j + 1]);
+            if (strcmp(Arrange[j + 1], Arrange[j]) < 0) { //ВОЗМОЖНО, ТУТ НЕ (МЕНЬШЕ) А (НЕ БОЛЬШЕ)
+                std::swap(Arrange[j], Arrange[j + 1]);
             }
         }
     }
-} //ВОЗМОЖНО, НУЖНО ТАКОЕ ЖЕ, НО КОНСТ
+}
 
 template<class Any>
 void MyVector<Any>::SortVector() {
-    if (!arrange) {
+    if (!Arrange) {
         return;
     }
     for (int i = 0; i < CurSize; ++i) {
         for (int j = 0; j < CurSize - i - 1; ++j) {
-            if (arrange[j] > arrange[j + 1]) {
-                std::swap(arrange[j], arrange[j + 1]);
+            if (Arrange[j] > Arrange[j + 1]) {
+                std::swap(Arrange[j], Arrange[j + 1]);
             }
         }
     }
@@ -162,22 +168,24 @@ void MyVector<Any>::SortVector() {
 
 template<>
 int MyVector<char*>::FindElement(char* element) {
+    int Placement = -1;
     for (int i = 0; i < this->CurSize; ++i) {
-        if (!strcmp(arrange[i], element)) {
-            return i;
+        if (!strcmp(Arrange[i], element)) {
+            Placement =  i;
         }
     }
-    return -1;
-} // ВОЗМОЖНО, НУЖНО ТАКОЕ ЖЕ, НО КОНСТ ЧАР
+    return Placement;
+}
 
 template<class Any>
 int MyVector<Any>::FindElement(Any element) {
+    int Placement = -1;
     for (int i = 0; i < this->CurSize; ++i) {
-        if (arrange[i] == element) {
-            return i;
+        if (Arrange[i] == element) {
+            Placement = i;
         }
     }
-    return -1;
+    return Placement;
 }
 
 template<>
@@ -185,14 +193,14 @@ MyVector<char*>& MyVector<char*>::operator=(const MyVector<char*>& Vector) {
     if(this==&Vector){
         return *this;
     }
-    delete[] arrange;
+    delete[] Arrange;
     this->CurMaxSize = Vector.CurMaxSize;
     this->CurSize = Vector.CurSize;
-    this->arrange = new char*[CurMaxSize];
+    this->Arrange = new char*[CurMaxSize];
     for (int i = 0; i < CurSize; ++i) {
-        delete[] this->arrange[i];
-        this->arrange[i]=new char[strlen(Vector[i])+1];
-        strcpy(this->arrange[i],Vector[i]);
+        delete[] this->Arrange[i];
+        this->Arrange[i]=new char[strlen(Vector[i])+1];
+        strcpy(this->Arrange[i],Vector[i]);
     }
     return *this;
 }
@@ -202,12 +210,12 @@ MyVector<Any>& MyVector<Any>::operator=(const MyVector<Any>& Vector) {
     if(this==&Vector){
         return *this;
     }
-    delete[] arrange;
+    delete[] Arrange;
     this->CurMaxSize = Vector.CurMaxSize;
     this->CurSize = Vector.CurSize;
-    this->arrange = new Any[CurMaxSize];
+    this->Arrange = new Any[CurMaxSize];
     for (int i = 0; i < CurSize; ++i) {
-        this->arrange[i] = Vector.arrange[i];
+        this->Arrange[i] = Vector[i];
     }
     return *this;
 }
@@ -215,9 +223,10 @@ MyVector<Any>& MyVector<Any>::operator=(const MyVector<Any>& Vector) {
 template<class Any>
 const Any& MyVector<Any>::operator[](int i) const {
     if (i < 0 || i >= CurSize) {
-        throw std::invalid_argument("NONVALID");
+        std::cout<<"Введены некорректные данные";
+        return Arrange[CurMaxSize];
     }
-    return arrange[i];
+    return Arrange[i];
 }
 
 template<class OtherAny>
@@ -225,7 +234,6 @@ std::ostream& operator<<(std::ostream& out, MyVector<OtherAny>& Vector) {
     for (int i = 0; i < Vector.CurSize; ++i) {
         out << Vector[i] << ' ';
     }
-    out << '\n';
     return out;
 }
 
@@ -239,7 +247,7 @@ class MySet : public MyVector<Any> {
     bool IsInArrange(Any element) const;
 
     template <class OtherAny>
-    friend std::ostream& operator<<(std::ostream& out, const MySet<OtherAny>& s);
+    friend std::ostream& operator<<(std::ostream& out, const MySet<OtherAny>& Set);
     template <class OtherAny>
     friend bool operator==(const MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta);
     template <class OtherAny>
@@ -249,11 +257,11 @@ class MySet : public MyVector<Any> {
     template <class OtherAny>
     friend MySet<OtherAny>& operator*=( MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta);
     template <class OtherAny>
-    friend MySet<OtherAny> operator+(const MySet<OtherAny>& s1, const MySet<OtherAny>& s2);
+    friend MySet<OtherAny> operator+(const MySet<OtherAny>& Alpha, const MySet<OtherAny>& Betta);
     template <class OtherAny>
-    friend MySet<OtherAny> operator-(const MySet<OtherAny>& s1, const MySet<OtherAny>& s2);
+    friend MySet<OtherAny> operator-(const MySet<OtherAny>& Alpha, const MySet<OtherAny>& Betta);
     template <class OtherAny>
-    friend MySet<OtherAny> operator*(const MySet<OtherAny>& s1, const MySet<OtherAny>& s2);
+    friend MySet<OtherAny> operator*(const MySet<OtherAny>& Alpha, const MySet<OtherAny>& Betta);
 };
 
 template<class Any>
@@ -262,6 +270,7 @@ void MySet<Any>::AddElement(Any element) {
         MyVector<Any>::AddElement(element);
         this->SortVector();
     }
+    return;
 }
 
 template<class Any>
@@ -270,39 +279,23 @@ void MySet<Any>::DeleteElement(Any element) {
     if (index != -1) {
         MyVector<Any>::DeleteElement(index);
     }
+    return;
 }
 
 template<>
 bool MySet<char*>::IsInArrange(char* element) const{
-    int left = 0;
-    int right = this->CurSize - 1;
-    while (left <= right) {
-        int middle = (left + right) / 2;
-        if (std::strcmp((*this)[middle],  element) > 0) {
-            right = middle - 1;
-        }
-         else {
-            left = middle + 1;
-        }
-        if (std::strcmp((*this)[middle],  element) == 0) {
+    for (int i = 0; i < this->CurSize; ++i) {
+        if (!strcmp((*this)[i], element)) {
             return true;
         }
     }
     return false;
-} // ВОЗМОЖНО, НУЖНО ТАКОЕ ЖЕ, НО КОНСТ ЧАР
+}
 
 template<class Any>
 bool MySet<Any>::IsInArrange(Any element)const  {
-    int left = 0;
-    int right = this->CurSize - 1;
-    while (left <= right) {
-        int middle = (left + right) / 2;
-        if ((*this)[middle] > element) {
-            right = middle - 1;
-        } else {
-            left = middle + 1;
-        }
-        if ((*this)[middle] == element) {
+    for (int i = 0; i < this->CurSize; ++i) {
+        if ((*this)[i] == element) {
             return true;
         }
     }
@@ -310,15 +303,15 @@ bool MySet<Any>::IsInArrange(Any element)const  {
 }
 
 template<class OtherAny>
-std::ostream& operator<<(std::ostream& out, const MySet<OtherAny>& s) {
-    out << "{";
-    for (int i = 0; i < s.CurSize; ++i) {
+std::ostream& operator<<(std::ostream& out, const MySet<OtherAny>& Set) {
+    std::cout << "{";
+    for (int i = 0; i < Set.CurSize; ++i) {
         if (i > 0) {
-            out << ", ";
+            std::cout << ", ";
         }
-        out << s[i];
+        std::cout << Set[i];
     }
-    out << "}";
+    std::cout << "}";
     return out;
 }
 
@@ -328,7 +321,7 @@ bool operator==(const MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta){
         return false;
     }
     for (int i = 0; i < Alpha.CurSize; ++i) {
-        if (!Betta.IsInArrange(Alpha[i])) {
+        if (!(Betta.IsInArrange(Alpha[i]))) {
             return false;
         }
     }
@@ -347,7 +340,7 @@ template<class OtherAny>
 MySet<OtherAny>& operator-=( MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta) {
     for (int i = 0; i < Alpha.CurSize; ++i) {
         if (Betta.IsInArrange((Alpha[i]))) {
-            Alpha.DeleteElement(Alpha[i--]);
+            Alpha.DeleteElement(Alpha[i--]); //Спроси, почему --
         }
     }
     return Alpha;
@@ -356,7 +349,7 @@ MySet<OtherAny>& operator-=( MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta
 template<class OtherAny>
 MySet<OtherAny>& operator*=( MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta) {
     for (int i = 0; i < Alpha.CurSize; ++i) {
-        if (!Betta.IsInArrange(Alpha[i])) {
+        if (!(Betta.IsInArrange(Alpha[i]))) {
             Alpha.DeleteElement(Alpha[i--]);
         }
     }
@@ -364,22 +357,22 @@ MySet<OtherAny>& operator*=( MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta
 }
 
 template<class OtherAny>
-MySet<OtherAny> operator+(const MySet<OtherAny>& s1, const MySet<OtherAny>& s2) {
-    MySet<OtherAny> result = s1;
-    result += s2;
+MySet<OtherAny> operator+(const MySet<OtherAny>& Alpha, const MySet<OtherAny>& Betta) {
+    MySet<OtherAny> result = Alpha;
+    result += Betta;
     return result;
 }
 
 template<class OtherAny>
-MySet<OtherAny> operator-(const MySet<OtherAny>& s1, const MySet<OtherAny>& s2) {
-    MySet<OtherAny> result = s1;
-    result -= s2;
+MySet<OtherAny> operator-(const MySet<OtherAny>& Alpha, const MySet<OtherAny>& Betta) {
+    MySet<OtherAny> result = Alpha;
+    result -= Betta;
     return result;
 }
 
 template<class OtherAny>
-MySet<OtherAny> operator*(const MySet<OtherAny>& s1, const MySet<OtherAny>& s2) {
-    MySet<OtherAny> result = s1;
-    result *= s2;
+MySet<OtherAny> operator*(const MySet<OtherAny>& Alpha, const MySet<OtherAny>& Betta) {
+    MySet<OtherAny> result = Alpha;
+    result *= Betta;
     return result;
 }
