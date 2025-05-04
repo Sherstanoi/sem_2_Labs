@@ -1,6 +1,6 @@
 #include "lab7.hpp"
 
 int main() {
-    //StartApp::Menu();
+    Start::Menu();
     return 0;
 }

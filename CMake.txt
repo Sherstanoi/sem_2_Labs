@@ -15,7 +15,7 @@ set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/lab7.hpp
 )
 
-add_subdirectory(MyStack)
+add_subdirectory(stack)
 
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES})

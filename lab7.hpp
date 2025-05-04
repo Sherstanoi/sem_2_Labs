@@ -1,32 +1,28 @@
 #pragma once
 #include <iostream>
-// #include "stack/MyStack.hpp"
+#include "stack/Stack.hpp"
 #include "Product.hpp"
 
 #pragma once
 
-namespace StartApp{
-enum class Task {
-    Add = 1,
-    Print = 2,
-    Delete = 3,
-    Clear = 4,
-    Demo = 5,
-    Exit = 6
-};
-enum class ProductType {
-    Toy = 1,
-    MilkProduct = 2,
-    Item= 3
-};
+namespace Start{
+    enum class Task { //Возможно, переделать под себя
+        Add = 1,
+        PrintStack = 2,
+        Delete = 3,
+        ClearStack = 4,
+        Exit = 5
+    };
 
-// void print(MyStack<ProductType*>& Products);
-// bool remove(MyStack<ProductType*>& Products, int index);
-// void clear(MyStack<ProductType*>& Products);
+    enum class ItemType {
+        Toy = 1,
+        MilkProduct = 2,
+        ProductType= 3
+    };
 
-// void Menu();
-// void AddEl(MyStac<ProductType*>& Products);
-// void Print(MyStack<ProductType*>& Products);
-// void Clear(MyStack<ProductType*>& Products);
-// void Remove(MyStack<ProductType*>& Products, int index);
+    void Menu();
+    void AddElement(Stack<Item*>& Products);
+    void PrintStack(Stack<Item*>& Products);
+    void ClearStack(Stack<Item*>& Products);
+    void RemoveElement(Stack<Item*>& Products, int index);
 }
