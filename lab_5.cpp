@@ -7,12 +7,6 @@ void start() {
         int Choice = 0;
         std::cout<< "Какой функцией вы хотели бы воспользоваться? \n1.вывести задние по ТЗ \n2. закончить \n";
         std::cin>> Choice;
-        MySet Alpha("aaa");
-        std::cout<<Alpha.IsInArrange("aaa") << std::endl;
-        std::cout<<Alpha.IsInArrange("bbb")<<std::endl;
-        MySet Betta(1);
-        std::cout<<Betta.IsInArrange(1) << std::endl;
-        std::cout<<Betta.IsInArrange(2)<<std::endl;
         switch (Choice)
         {
         case 1: {

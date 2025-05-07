@@ -49,6 +49,16 @@ MyVector<Any>::MyVector(Any element , int MaxSize) {
     }
 }
 
+template<class Any>
+MyVector<Any>::MyVector(const MyVector& Vector) {
+    CurMaxSize = Vector.CurMaxSize;
+    CurSize = Vector.CurSize;
+    Arrange = new Any[CurMaxSize];
+    for (int i = 0; i < CurSize; ++i) {
+        Arrange[i] = Vector.Arrange[i];
+    }
+}
+
 template<>
 MyVector<char*>::MyVector(const MyVector& Vector) {
     CurMaxSize = Vector.CurMaxSize;
@@ -61,13 +71,8 @@ MyVector<char*>::MyVector(const MyVector& Vector) {
 }
 
 template<class Any>
-MyVector<Any>::MyVector(const MyVector& Vector) {
-    CurMaxSize = Vector.CurMaxSize;
-    CurSize = Vector.CurSize;
-    Arrange = new Any[CurMaxSize];
-    for (int i = 0; i < CurSize; ++i) {
-        Arrange[i] = Vector.Arrange[i];
-    }
+MyVector<Any>::~MyVector() {
+    delete[] Arrange;
 }
 
 template<>
@@ -76,21 +81,6 @@ MyVector<char*>::~MyVector() {
         delete[] Arrange[i];
     }
     delete[] Arrange;
-}
-
-template<class Any>
-MyVector<Any>::~MyVector() {
-    delete[] Arrange;
-}
-
-template<>
-void MyVector<char*>::AddElement(char* element) {  //ЖЕЛАТЕЛЬНО РАЗОБРАТЬСЯ, ПОЧЕМУ ПРИ СМЕНЕ КУРСАЙЗ++ ВСЁ ЛОМАЕТСЯ
-    if (CurSize >= CurMaxSize) {
-        ChangeArrSize();
-    }
-    Arrange[CurSize]=new char[strlen(element)+1];
-    strcpy(Arrange[CurSize],element);
-    ++CurSize;
 }
 
 template<class Any>
@@ -103,22 +93,13 @@ void MyVector<Any>::AddElement(Any element) {
 }
 
 template<>
-bool MyVector<char*>::DeleteElement(int i) {
-    if (CurSize == 0 || i < 0 || i >= CurSize) {
-        return false;
+void MyVector<char*>::AddElement(char* element) {
+    if (CurSize >= CurMaxSize) {
+        ChangeArrSize();
     }
-    for (int j = 0; j < CurSize - 1; ++j) {
-        if(j>=i) {
-            delete[] Arrange[j];
-            Arrange[j]=new char[strlen(Arrange[j+1])+1];
-            strcpy(Arrange[j],Arrange[j+1]);
-        }
-    }
-    --CurSize;
-    if (CurSize < CurMaxSize / 4) {
-        CurMaxSize = CurMaxSize / 2;
-    }
-    return true;
+    Arrange[CurSize]=new char[strlen(element)+1];
+    strcpy(Arrange[CurSize],element);
+    ++CurSize;
 }
 
 template<class Any>
@@ -139,17 +120,19 @@ bool MyVector<Any>::DeleteElement(int i) {
 }
 
 template<>
-void MyVector<char*>::SortVector() {
-    if (!Arrange) {
-        return;
+bool MyVector<char*>::DeleteElement(int i) {
+    if (CurSize == 0 || i < 0 || i >= CurSize) {
+        return false;
     }
-    for (int i = 0; i < CurSize; ++i) {
-        for (int j = 0; j < CurSize - i - 1; ++j) {
-            if (strcmp(Arrange[j + 1], Arrange[j]) < 0) { //ВОЗМОЖНО, ТУТ НЕ (МЕНЬШЕ) А (НЕ БОЛЬШЕ)
-                std::swap(Arrange[j], Arrange[j + 1]);
-            }
-        }
+    for (int j = i; j < CurSize - 1; ++j) {
+        delete[] Arrange[j];
+        Arrange[j] = Arrange[j+1];
     }
+    --CurSize;
+    if (CurSize < CurMaxSize / 4) {
+        CurMaxSize = CurMaxSize / 2;
+    }
+    return true;
 }
 
 template<class Any>
@@ -167,14 +150,17 @@ void MyVector<Any>::SortVector() {
 }
 
 template<>
-int MyVector<char*>::FindElement(char* element) {
-    int Placement = -1;
-    for (int i = 0; i < this->CurSize; ++i) {
-        if (!strcmp(Arrange[i], element)) {
-            Placement =  i;
+void MyVector<char*>::SortVector() {
+    if (!Arrange) {
+        return;
+    }
+    for (int i = 0; i < CurSize; ++i) {
+        for (int j = 0; j < CurSize - i - 1; ++j) {
+            if (strcmp(Arrange[j + 1], Arrange[j]) < 0) {
+                std::swap(Arrange[j], Arrange[j + 1]);
+            }
         }
     }
-    return Placement;
 }
 
 template<class Any>
@@ -186,6 +172,32 @@ int MyVector<Any>::FindElement(Any element) {
         }
     }
     return Placement;
+}
+
+template<>
+int MyVector<char*>::FindElement(char* element) {
+    int Placement = -1;
+    for (int i = 0; i < this->CurSize; ++i) {
+        if (!strcmp(Arrange[i], element)) {
+            Placement =  i;
+        }
+    }
+    return Placement;
+}
+
+template<class Any>
+MyVector<Any>& MyVector<Any>::operator=(const MyVector<Any>& Vector) {
+    if(this==&Vector){
+        return *this;
+    }
+    delete[] Arrange;
+    this->CurMaxSize = Vector.CurMaxSize;
+    this->CurSize = Vector.CurSize;
+    this->Arrange = new Any[CurMaxSize];
+    for (int i = 0; i < CurSize; ++i) {
+        this->Arrange[i] = Vector[i];
+    }
+    return *this;
 }
 
 template<>
@@ -201,21 +213,6 @@ MyVector<char*>& MyVector<char*>::operator=(const MyVector<char*>& Vector) {
         delete[] this->Arrange[i];
         this->Arrange[i]=new char[strlen(Vector[i])+1];
         strcpy(this->Arrange[i],Vector[i]);
-    }
-    return *this;
-}
-
-template<class Any>
-MyVector<Any>& MyVector<Any>::operator=(const MyVector<Any>& Vector) {
-    if(this==&Vector){
-        return *this;
-    }
-    delete[] Arrange;
-    this->CurMaxSize = Vector.CurMaxSize;
-    this->CurSize = Vector.CurSize;
-    this->Arrange = new Any[CurMaxSize];
-    for (int i = 0; i < CurSize; ++i) {
-        this->Arrange[i] = Vector[i];
     }
     return *this;
 }
@@ -282,20 +279,20 @@ void MySet<Any>::DeleteElement(Any element) {
     return;
 }
 
-template<>
-bool MySet<char*>::IsInArrange(char* element) const{
+template<class Any>
+bool MySet<Any>::IsInArrange(Any element)const  {
     for (int i = 0; i < this->CurSize; ++i) {
-        if (!strcmp((*this)[i], element)) {
+        if ((*this)[i] == element) {
             return true;
         }
     }
     return false;
 }
 
-template<class Any>
-bool MySet<Any>::IsInArrange(Any element)const  {
+template<>
+bool MySet<char*>::IsInArrange(char* element) const{
     for (int i = 0; i < this->CurSize; ++i) {
-        if ((*this)[i] == element) {
+        if (!strcmp((*this)[i], element)) {
             return true;
         }
     }
@@ -340,7 +337,7 @@ template<class OtherAny>
 MySet<OtherAny>& operator-=( MySet<OtherAny>& Alpha,const MySet<OtherAny>& Betta) {
     for (int i = 0; i < Alpha.CurSize; ++i) {
         if (Betta.IsInArrange((Alpha[i]))) {
-            Alpha.DeleteElement(Alpha[i--]); //Спроси, почему --
+            Alpha.DeleteElement(Alpha[i--]);
         }
     }
     return Alpha;
