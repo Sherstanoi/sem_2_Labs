@@ -113,13 +113,13 @@ void AddElement(Stack<Item*>& ItemsList) {
     switch (static_cast<ItemType>(type)) {
         case ItemType::Toy: {
             bool TempSoftness;
-            char* Answer;
+            char Answer[4];
             int Cost;
             std::cout << "мягкая ли игрушка(yes/no): "<<std::endl;
             std::cin >> Cost;
             std::cout << "Мягкая ли игрушка(yes/no): "<<std::endl;
             std::cin >> Answer;
-            if(Answer == "yes" || Answer == "Yes") {
+            if(Answer == "yes" || Answer == "Yes") { //ВОТ ТУУУТ
                 TempSoftness = true;
             } else if(Answer == "no" || Answer == "No") {
                 TempSoftness = false;
