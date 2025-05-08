@@ -10,7 +10,7 @@ Item::~Item(){
     std::cout << "~Item()" << std::endl;
 }
 
-ProductType::ProductType(const char* Name, int Cost): Item(Name),Cost(Cost){ //Заменять подобное оформление?
+ProductType::ProductType(const char* Name, int Cost): Item(Name),Cost(Cost){
     std::cout << "ProductType()" << std::endl;
 }
 ProductType::~ProductType(){
