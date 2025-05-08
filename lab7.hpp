@@ -6,14 +6,6 @@
 #pragma once
 
 namespace Start{
-    enum class Task { //Возможно, переделать под себя
-        Add = 1,
-        PrintStack = 2,
-        Delete = 3,
-        ClearStack = 4,
-        Exit = 5
-    };
-
     enum class ItemType {
         Toy = 1,
         MilkProduct = 2,

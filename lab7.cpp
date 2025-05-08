@@ -6,29 +6,31 @@ namespace Start{
     void Menu() {
         Stack<Item*> ItemsList;
         int Choice = 0;
-        while (static_cast<Task>(Choice) != Task::Exit) {
-            std::cout << "Выберите номер, интересующего вас действия, и введите его в консоль для перехода\n1. Добавить элемент в список\n2. Печать списка\n3. Удалить элемент по индексу\n4. Очистить список\n 5. Выход\n";
+        bool MenuFlag = true;
+        while (MenuFlag) {
+            std::cout << "Выберите номер, интересующего вас действия, и введите его в консоль для перехода\n1. Добавить элемент в список\n2. Печать списка\n3. Удалить элемент по индексу\n4. Очистить список\n5. Выход\n";
             std::cin >> Choice;
             std::cout << std::endl;
-            switch (static_cast<Task>(Choice)) {
-                case Task::Add:
+            switch (Choice) {
+                case 1:
                     AddElement(ItemsList);
                     break;
-                case Task::PrintStack:
+                case 2:
                     PrintStack(ItemsList);
                     break;
-                case Task::Delete: {
+                case 3: {
                     int index;
                     std::cout << "Введите индекс элемента для удаления: "<<std::endl;
                     std::cin >> index;
                     RemoveElement(ItemsList, index);
                     break;
                 }
-                case Task::ClearStack:
+                case 4:
                     ClearStack(ItemsList);
                     break;
-                case Task::Exit:
+                case 5:
                     ClearStack(ItemsList);
+                    MenuFlag = false;
                     break;
                 default:
                     std::cout << "Введены некорректные данные" << std::endl;
@@ -83,7 +85,7 @@ void RemoveElement(Stack<Item*>& ItemsList, int index){
             }else{
                 PreviousElement->SetNextElement(nullptr);
             }
-            if (i==0 && !(ElementOfStack->GetNextElement())){ //По идее, можно удалить
+            if (i==0 && !(ElementOfStack->GetNextElement())){
                 ItemsList.SetTopElementInfo(nullptr);
             }
             delete ElementOfStack->GetNumber();
@@ -110,27 +112,19 @@ void AddElement(Stack<Item*>& ItemsList) {
     std::cout << "Введите название, пожалуйста: "<< std::endl;
     std::cin.ignore();
     std::cin.getline(Name, 100);
-    switch (static_cast<ItemType>(type)) {
-        case ItemType::Toy: {
+    switch (type) {
+        case 1: {
             bool TempSoftness;
-            char Answer[4];
+            bool Answer;
             int Cost;
-            std::cout << "мягкая ли игрушка(yes/no): "<<std::endl;
+            std::cout << "Стоимость игрушки: "<<std::endl;
             std::cin >> Cost;
-            std::cout << "Мягкая ли игрушка(yes/no): "<<std::endl;
-            std::cin >> Answer;
-            if(Answer == "yes" || Answer == "Yes") { //ВОТ ТУУУТ
-                TempSoftness = true;
-            } else if(Answer == "no" || Answer == "No") {
-                TempSoftness = false;
-            } else {
-                std::cout<< "Введены некорректные данные";
-                break;
-            }
+            std::cout << "Мягкая ли игрушка(1/0): "<<std::endl;
+            std::cin >> TempSoftness;
             ItemsList.PushElement(new Toy(Name,Cost,TempSoftness));
             break;
         }
-        case ItemType::MilkProduct: {
+        case 2: {
             int TempFatPercent;
             int Cost;
             std::cout << "Введите цену товара, пожалуйста "<<std::endl;
@@ -140,7 +134,7 @@ void AddElement(Stack<Item*>& ItemsList) {
             ItemsList.PushElement(new MilkProduct(Name,Cost,TempFatPercent));
             break;
         }
-        case ItemType::ProductType: {
+        case 3: {
             int Cost;
             std::cout << "Введите цену,пожалуйста: "<<std::endl;
             std::cin >> Cost;
