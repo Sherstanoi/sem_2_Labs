@@ -33,19 +33,26 @@ class Polynomial {
 
  public:
     Polynomial();
-    Polynomial(int PolyPower);
+    Polynomial(int alpha);
     Polynomial(const Term& SomeTerm);
-    Polynomial(const Polynomial& PolyPower);
+    Polynomial(const Polynomial& alpha);
     ~Polynomial();
 
-    Polynomial& operator=(const Polynomial& PolyPower);
-    Polynomial& operator+=(const Polynomial& PolyPower);
-    Polynomial& operator*=(const Polynomial& PolyPower);
+    Polynomial& operator=(const Polynomial& alpha);
+    Polynomial& operator+=(const Polynomial& alpha);
+    Polynomial& operator*=(const Polynomial& alpha);
 
-    friend std::ostream& operator<<(std::ostream& out, Polynomial& PolyPower);
-    friend std::istream& operator>>(std::istream& in, Polynomial& PolyPower);
-    friend Polynomial operator+(const Polynomial& PowerOfFirst, const Polynomial& PowerOfSecond);
-    friend Polynomial operator*(const Polynomial& PowerOfFirst, const Polynomial& PowerOfSecond);
+    friend std::ostream& operator<<(std::ostream& out, Polynomial& alpha);
+    friend std::istream& operator>>(std::istream& in, Polynomial& alpha);
+    friend Polynomial operator+(const Polynomial& alpha, const Polynomial& betta);
+    friend Polynomial operator*(const Polynomial& alpha, const Polynomial& betta);
 
     void SortPolynomial(bool increase = true);
 };
+
+namespace{
+    bool ContinueFlag = true;
+    int Choice;
+    int schet = 0;
+    int schet2 = 0;
+}

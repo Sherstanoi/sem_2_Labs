@@ -13,64 +13,6 @@ Term::Term(int SomeRatio, int SomePower) {
     Power = SomePower;
 }
 
-Term operator+(const Term& Alpha, const Term& Betta) {
-    if (Alpha.Power != Betta.Power) {  //ТУУУТ
-        throw "INVALID";
-    }
-    return Term(Alpha.Ratio + Betta.Ratio, Alpha.Power);
-}
-
-std::ostream& operator<<(std::ostream& out, Term& Alpha) {
-    if (Alpha.Ratio == 0) {
-        return out;
-    }
-    if (Alpha.Power == 0) {
-        out << Alpha.Ratio;
-    } else {
-        if (Alpha.Ratio == 1) {
-            out << "x";
-        } else if (Alpha.Ratio == -1) {
-            out << "-x";
-        } else {
-            out << Alpha.Ratio << "x";
-        }
-        if (Alpha.Power != 1) {
-            out << "^" << Alpha.Power;
-        }
-    }
-    return out;
-}
-
-std::istream& operator>>(std::istream& in, Term& Alpha) {
-    char buffer[50]{};
-    in.getline(buffer, 50);
-    char* xCoords = strchr(buffer, 'x');  //??????
-    if (xCoords) {
-        *xCoords = '\0';
-        if (*buffer == '\0' || strcmp(buffer, "+") == 0) {
-            Alpha.Ratio = 1;
-        } else if (strcmp(buffer, "-") == 0) {
-            Alpha.Ratio = -1;
-        } else {
-            Alpha.Ratio = atoi(buffer);
-        }
-        char* degPart = strchr(xCoords + 1, '^');
-        if (degPart) {
-            Alpha.Power= atoi(degPart + 1);
-        } else {
-            Alpha.Power = 1;
-        }
-    } else {
-        Alpha.Ratio = atoi(buffer);
-        Alpha.Power = 0;
-    }
-    return in;
-}
-
-int Term::GetRatio(){
-    return Ratio;
-}
-
 Polynomial::Polynomial(){
     Element=nullptr;
     Power=0;
@@ -108,12 +50,101 @@ Polynomial::~Polynomial() {
     delete[] Element;
 }
 
+Term operator+(const Term& Alpha, const Term& Betta) {
+    return Term(Alpha.Ratio + Betta.Ratio, Alpha.Power);
+}
+
+int Term::GetRatio(){
+    return Ratio;
+}
+
+std::ostream& operator<<(std::ostream& out, Term& Alpha) {
+    if (Alpha.Ratio == 0) {
+        return out;
+    }
+    if (Alpha.Power == 0) {
+        out << Alpha.Ratio;
+    } else {
+        if (Alpha.Ratio == 1) {
+            out << "x";
+        } else if (Alpha.Ratio == -1) {
+            out << "-x";
+        } else {
+            out << Alpha.Ratio << "x";
+        }
+        if (Alpha.Power != 1) {
+            out << "^" << Alpha.Power;
+        }
+    }
+    return out;
+}
+
+std::istream& operator>>(std::istream& in, Term& Alpha) {
+    char buffer[50]{};
+    in.getline(buffer, 50);
+    for(int i = 49; buffer[i]!= '\0'; --i) {
+        schet = i;
+    };
+    // std::cout<<schet << " " << buffer[schet] << " ";
+    // if(buffer[schet] == '+' || buffer[schet] == '-') {
+    //     while(buffer[schet] != '-' || buffer[schet] != '+' || buffer[schet] != 'x') {
+    //         ++schet;
+    //         if(buffer[schet] == '-' || buffer[schet] == '+') {
+    //             buffer[schet-1] = '\0';
+    //             Alpha.Ratio = atoi(buffer);
+    //             Alpha.Power = 0;
+    //             return in;
+    //         } else if(buffer[schet]=='x') {
+    //             break;
+    //         }
+    //     }
+    // }
+    char* XIndex = strchr(buffer, 'x'); //Может ли ошибка быть тут?
+    if (XIndex) {
+        while(*(buffer+schet) != *XIndex) {
+            schet++;
+        }
+        *XIndex = '\0';
+        char* SomeIndex;
+        for(int i = schet-1; buffer[i] != '\0'; --i) {
+            if(buffer[i] == '+' || buffer[i] == '-') {
+                schet2 +=1;
+                if(schet2 > 1) {
+                    SomeIndex = strchr(buffer, ' ');
+                    *SomeIndex = '\0';
+                    Alpha.Ratio = atoi(buffer);
+                    Alpha.Power = 0;
+                    return in;
+                }
+            }
+        }
+        std::cout<<buffer;
+        if (*buffer == '\0' || strcmp(buffer, "+") == 0) {
+            Alpha.Ratio = 1;
+        } else if (strcmp(buffer, "-") == 0) {
+            Alpha.Ratio = -1;
+        } else {
+            Alpha.Ratio = atoi(buffer);
+        }
+        char* PowerSymbolIndex = strchr(XIndex + 1, '^');
+        if (PowerSymbolIndex && PowerSymbolIndex-XIndex < 2) {
+            Alpha.Power= atoi(PowerSymbolIndex + 1);
+        } else {
+            Alpha.Power = 1;
+        }
+    } else {
+        Alpha.Ratio = atoi(buffer);
+        Alpha.Power = 0;
+    }
+    return in;
+}
+
 Polynomial& Polynomial::operator=(const Polynomial& SomePoly) {
     if (this == &SomePoly)
         return *this;
     delete[] Element;
-    Element = new Term[Size];
-    for (int i = 0; i < Size; i++) {
+    Element = new Term[SomePoly.Size];
+    for (int i = 0; i < SomePoly.Size; i++) {
         Element[i] = SomePoly.Element[i];
     }
     Size = SomePoly.Size;
@@ -147,7 +178,7 @@ Polynomial& Polynomial::operator+=(const Polynomial& SomePoly) {
     return *this;
 }
 
-Polynomial& Polynomial::operator*=(const Polynomial& SomePoly) {
+Polynomial& Polynomial::operator*=(const Polynomial& SomePoly) { //ТУт возможно
     Polynomial result;
     for (int i = 0; i < Size; ++i) {
         for (int j = 0; j < SomePoly.Size; ++j) {
@@ -170,7 +201,7 @@ Polynomial operator*(const Polynomial& p1, const Polynomial& p2) {
     return result;
 }
 
-void Polynomial::SortPolynomial(bool Increase) {
+void Polynomial::SortPolynomial(bool Increase) { // Тут должна быть
     order_ = Increase;
     for (int i = 0; i < Size - 1; ++i) {
         for (int j = 0; j < Size - i - 1; ++j) {
@@ -198,7 +229,7 @@ std::ostream& operator<<(std::ostream& out, Polynomial& SomePoly) {
     return out;
 }
 
-std::istream& operator>>(std::istream& in, Polynomial& SomePoly) {  ///???????
+std::istream& operator>>(std::istream& in, Polynomial& SomePoly) {  
     char buffer[1000];
     in.getline(buffer, 1000);
     char* ptr = buffer;
@@ -214,21 +245,23 @@ std::istream& operator>>(std::istream& in, Polynomial& SomePoly) {  ///???????
         while (*ptr == ' ') {
             ++ptr;
         }
-        char* op = std::strchr(ptr, '+');
-        char* minus = std::strchr(ptr, '-');
-        if (minus && (!op || minus < op)) {
-            op = minus;
+        char* FirstSign = std::strchr(ptr, '+');
+        char* AlternativeSign = std::strchr(ptr, '-');
+        if (AlternativeSign && (!FirstSign || AlternativeSign < FirstSign)) {
+            FirstSign = AlternativeSign;
         }
         char termBuffer[50];
         termBuffer[0] = Sign;
+        std::cout<< "\n" << buffer<<"\n";
         std::strcpy(termBuffer + 1, ptr);
         std::istringstream tempStream(termBuffer);
         Term temp;
         tempStream >> temp;
+        std::cout << temp;
         SomePoly += Polynomial(temp);
-        if (op) {
-            Sign = *op;
-            ptr = op + 1;
+        if (FirstSign) {
+            Sign = *FirstSign;
+            ptr = FirstSign + 1;
         } else {
             break;
         }
