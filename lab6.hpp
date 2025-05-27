@@ -1,58 +1,48 @@
-#pragma once
-#include <cstdlib>
-#include <cstring>
 #include <iostream>
-#include <limits>
-#include <algorithm>
-#include <sstream>
+#include <cstring>
+#pragma once
 
-class Term{
+class Term {
 private:
-    int Ratio = 0;
-    int Power = 0;
-
+    int Multiplier;
+    int Degree;
 public:
     Term();
-    Term(int NewRatio);
-    Term(int NewRatio, int NewPower);
+    Term(int k, int n=0);
+    Term(char* alpha);
 
-    friend Term operator+(const Term& Alpha,const Term& Betta);
-    friend std::ostream& operator<<(std::ostream& out, Term& ThisTerm);
-    friend std::istream& operator>>(std::istream& in, Term& ThisTerm);
+    int degree() const;
+    int coeff() const;
 
-    friend class Polynomial;
+    int get_n_();
+    int get_k_();
 
-    int GetRatio();
+    Term& operator+=(const Term& Alpha);
+    friend Term operator+(const Term& Alpha, const Term& Betta);
+    friend std::istream& operator>>(std::istream& in, Term& Alpha);
+    friend std::ostream& operator<<(std::ostream& out, const Term& Alpha);
 };
 
 class Polynomial {
+private:
     Term* Element;
-    int Power;
-    int Size;
-    bool order_;
 
- public:
+    int CurrentElements;
+    int MaxElements;
+
+    void ChangeMaxElementsAmount();
+    void sort_desc();
+public:
     Polynomial();
-    Polynomial(int alpha);
-    Polynomial(const Term& SomeTerm);
-    Polynomial(const Polynomial& alpha);
+    Polynomial(const Polynomial& Alpha);
     ~Polynomial();
 
-    Polynomial& operator=(const Polynomial& alpha);
-    Polynomial& operator+=(const Polynomial& alpha);
-    Polynomial& operator*=(const Polynomial& alpha);
+    void AddElement(const Term& Betta);
 
-    friend std::ostream& operator<<(std::ostream& out, Polynomial& alpha);
-    friend std::istream& operator>>(std::istream& in, Polynomial& alpha);
-    friend Polynomial operator+(const Polynomial& alpha, const Polynomial& betta);
-    friend Polynomial operator*(const Polynomial& alpha, const Polynomial& betta);
-
-    void SortPolynomial(bool increase = true);
+    Polynomial& operator=(const Polynomial& Alpha);
+    friend Polynomial operator+(const Polynomial& Alpha, const Polynomial& Betta);
+    friend Polynomial operator*(const Polynomial& Alpha, const Polynomial& Betta);
+    friend Polynomial operator-(const Polynomial& Alpha, const Polynomial& Betta);
+    friend std::istream& operator>>(std::istream& in, Polynomial& poly);
+    friend std::ostream& operator<<(std::ostream& out, const Polynomial& poly);
 };
-
-namespace{
-    bool ContinueFlag = true;
-    int Choice;
-    int schet = 0;
-    int schet2 = 0;
-}

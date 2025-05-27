@@ -1,270 +1,339 @@
 #include "lab6.hpp"
+Term::Term(): Multiplier(0), Degree(0) {}
 
-Term::Term() {
-    Ratio = 0;
-    Power = 0;
-}
-Term::Term(int SomeRatio) {
-    Ratio = SomeRatio;
-    Power = 0;
-}
-Term::Term(int SomeRatio, int SomePower) {
-    Ratio = SomeRatio;
-    Power = SomePower;
-}
+Term::Term(int SomeMult, int SomeDegree): Multiplier(SomeMult), Degree(SomeDegree) {}
 
-Polynomial::Polynomial(){
-    Element=nullptr;
-    Power=0;
-    Size=0;
-    order_=true;
-}
-
-Polynomial::Polynomial(int SomePower){
-    Element = new Term[1];
-    Element[0] = Term(SomePower, 0);
-    Power=0;
-    Size=1;
-    order_=true;
-}
-
-Polynomial::Polynomial(const Term& SomeTerm) {
-    Element = new Term[1];
-    Element[0] = SomeTerm;
-    Power=SomeTerm.Power;
-    Size=1;
-    order_=true;
-}
-
-Polynomial::Polynomial(const Polynomial& SomePoly) {
-    Element = new Term[Size];
-    for (int i = 0; i < Size; ++i) {
-        Element[i] = SomePoly.Element[i];
+Term::Term(char* cterm) {
+    std::cout << cterm << '\n';
+    int MultSign = 1;
+    int TempMult = 0;
+    int DegreeSign = 1;
+    int TempDegree = 0;
+    int schet = 0;
+    bool MultFlag = false;
+    bool DegreeFlag = false;
+    while (cterm[schet] == ' ') {
+        schet += 1;
     }
-    Power = SomePoly.Power;
-    Size = SomePoly.Size;
-    order_ = SomePoly.order_;
+    if (cterm[schet] == '-') {
+        MultSign = -1;
+        schet+=1;
+    } else if (cterm[schet] == '+') { //Можно понтанутться
+        schet+=1;
+    }
+    while (cterm[schet] == ' ') {
+        schet += 1;
+    }
+    for (int i = schet; i < static_cast<int>(strlen(cterm)); i++) { //Если есть ошибка, то тут
+        // if (i >= ) { //попытайся поменять тут
+        //     break;
+        // }
+        if (cterm[i] == ' ') {
+            break;
+        } else if (cterm[i] == 'x') { // ПОменяй
+            break;
+        }
+        if (!isdigit(cterm[i]) && i < static_cast<int>(strlen(cterm))) {
+            Multiplier = 0;
+            Degree = 0;
+            return;
+        }
+        TempMult *= 10;
+        TempMult += (static_cast<int>(cterm[i]) - static_cast<int>('0'));
+        schet += 1;
+        MultFlag = true;
+    }
+    schet+=1;
+    while (cterm[schet] == ' ' || cterm[schet] == 'x' || cterm[schet] == '^' ) {
+        schet += 1;
+    }
+    if (cterm[schet] == '-'){
+        DegreeSign = -1;
+        schet+=1;
+    }
+    while (cterm[schet] == ' ') {
+        schet += 1;
+    }
+    for (int i = schet; i < static_cast<int>(std::strlen(cterm)); i++){
+        if (i >= static_cast<int>(strlen(cterm))) { //???
+            break;
+        }
+        if (cterm[i] == ' '){
+            break;
+        }
+        if (!isdigit(cterm[i])){
+            std::cout << "3небыло небыло\n";
+            Multiplier = 0; //Попробуй заменить на временный, который считали до этого?
+            Degree = 0;
+            return;
+        }
+        TempDegree *= 10;
+        TempDegree += (static_cast<int>(cterm[i]) - static_cast<int>('0'));
+        schet += 1;
+        DegreeFlag = true;
+    }
+    Multiplier = TempMult * MultSign;
+    Degree = TempDegree * DegreeSign;
+    if (not MultFlag and DegreeFlag) {
+        Multiplier = MultSign;
+    }
+    if (Multiplier == 0) {
+        Degree = 0;
+    }
+    std::cout << *this;
+    std::cout << "\n||||||||||||\n"; // meeh
+    return;
+}
+
+int Term::degree() const {
+    return Degree;
+}
+
+int Term::coeff() const {
+    return Multiplier;
+}
+
+int Term::get_n_(){ // delete
+    return Degree;
+}
+
+int Term::get_k_(){
+    return Multiplier;
+}
+
+Term& Term::operator+=(const Term& other) {
+    if (Degree == other.Degree) {
+        Multiplier += other.Multiplier;
+    }
+    return *this;
+}
+
+Term operator+(const Term& Alpha, const Term& Betta) {
+    Term TempElement = Alpha;
+    TempElement += Betta;
+    return TempElement;
+}
+
+std::istream& operator>>(std::istream& in, Term& Alpha) {
+    char cterm[1000];
+    in.getline(cterm, 1000);
+    Alpha = Term(cterm);
+    return in;
+}
+
+std::ostream& operator<<(std::ostream& out, const Term& Alpha) {
+    int TempMult = Alpha.Multiplier;
+    int TempDegree = Alpha.Degree;
+    if (TempMult == 0) {
+        out << '0';
+        return out;
+    } else if (TempDegree == 0) {
+        out << TempMult;
+        return out;
+    } else if (TempMult != 1 && TempMult != -1) {
+        out << TempMult;
+    }
+    out << 'x';
+    if (TempDegree != 1) {
+        out << '^' << TempDegree;
+    }
+    return out;
+}
+
+Polynomial::Polynomial(): Element(new Term[4]), CurrentElements(0), MaxElements(4) {}
+
+Polynomial::Polynomial(const Polynomial& other): Element(new Term[other.MaxElements]), CurrentElements(other.CurrentElements), MaxElements(other.MaxElements) {
+    for (int i = 0; i < CurrentElements; ++i) {
+        Element[i] = other.Element[i];
+    }
 }
 
 Polynomial::~Polynomial() {
     delete[] Element;
 }
 
-Term operator+(const Term& Alpha, const Term& Betta) {
-    return Term(Alpha.Ratio + Betta.Ratio, Alpha.Power);
-}
-
-int Term::GetRatio(){
-    return Ratio;
-}
-
-std::ostream& operator<<(std::ostream& out, Term& Alpha) {
-    if (Alpha.Ratio == 0) {
-        return out;
+void Polynomial::ChangeMaxElementsAmount() {
+    if (CurrentElements < MaxElements) {
+        return;
     }
-    if (Alpha.Power == 0) {
-        out << Alpha.Ratio;
-    } else {
-        if (Alpha.Ratio == 1) {
-            out << "x";
-        } else if (Alpha.Ratio == -1) {
-            out << "-x";
-        } else {
-            out << Alpha.Ratio << "x";
-        }
-        if (Alpha.Power != 1) {
-            out << "^" << Alpha.Power;
-        }
+    int NewMaxElements = MaxElements * 2;
+    Term* TempElement = new Term[NewMaxElements];
+    for (int i = 0; i < CurrentElements; ++i) {
+        TempElement[i] = Element[i];
     }
-    return out;
-}
-
-std::istream& operator>>(std::istream& in, Term& Alpha) {
-    char buffer[50]{};
-    in.getline(buffer, 50);
-    for(int i = 49; buffer[i]!= '\0'; --i) {
-        schet = i;
-    };
-    // std::cout<<schet << " " << buffer[schet] << " ";
-    // if(buffer[schet] == '+' || buffer[schet] == '-') {
-    //     while(buffer[schet] != '-' || buffer[schet] != '+' || buffer[schet] != 'x') {
-    //         ++schet;
-    //         if(buffer[schet] == '-' || buffer[schet] == '+') {
-    //             buffer[schet-1] = '\0';
-    //             Alpha.Ratio = atoi(buffer);
-    //             Alpha.Power = 0;
-    //             return in;
-    //         } else if(buffer[schet]=='x') {
-    //             break;
-    //         }
-    //     }
-    // }
-    char* XIndex = strchr(buffer, 'x'); //Может ли ошибка быть тут?
-    if (XIndex) {
-        while(*(buffer+schet) != *XIndex) {
-            schet++;
-        }
-        *XIndex = '\0';
-        char* SomeIndex;
-        for(int i = schet-1; buffer[i] != '\0'; --i) {
-            if(buffer[i] == '+' || buffer[i] == '-') {
-                schet2 +=1;
-                if(schet2 > 1) {
-                    SomeIndex = strchr(buffer, ' ');
-                    *SomeIndex = '\0';
-                    Alpha.Ratio = atoi(buffer);
-                    Alpha.Power = 0;
-                    return in;
-                }
-            }
-        }
-        std::cout<<buffer;
-        if (*buffer == '\0' || strcmp(buffer, "+") == 0) {
-            Alpha.Ratio = 1;
-        } else if (strcmp(buffer, "-") == 0) {
-            Alpha.Ratio = -1;
-        } else {
-            Alpha.Ratio = atoi(buffer);
-        }
-        char* PowerSymbolIndex = strchr(XIndex + 1, '^');
-        if (PowerSymbolIndex && PowerSymbolIndex-XIndex < 2) {
-            Alpha.Power= atoi(PowerSymbolIndex + 1);
-        } else {
-            Alpha.Power = 1;
-        }
-    } else {
-        Alpha.Ratio = atoi(buffer);
-        Alpha.Power = 0;
-    }
-    return in;
-}
-
-Polynomial& Polynomial::operator=(const Polynomial& SomePoly) {
-    if (this == &SomePoly)
-        return *this;
     delete[] Element;
-    Element = new Term[SomePoly.Size];
-    for (int i = 0; i < SomePoly.Size; i++) {
-        Element[i] = SomePoly.Element[i];
+    Element = TempElement;
+    MaxElements = NewMaxElements;
+}
+
+void Polynomial::sort_desc() {
+    for (int i = 0; i < CurrentElements - 1; ++i)
+        for (int j = i + 1; j < CurrentElements; ++j)
+            if (Element[j].degree() > Element[i].degree()) {
+                Term TempElement = Element[i];
+                Element[i] = Element[j];
+                Element[j] = TempElement;
+            }
+}
+
+void Polynomial::AddElement(const Term& SomeElement) {
+    for (int i = 0; i < CurrentElements; ++i) {
+        if (Element[i].degree() == SomeElement.degree()) {
+            Element[i] += SomeElement;
+            if (Element[i].coeff() == 0) {
+                for (int j = i; j < CurrentElements - 1; ++j) {
+                     Element[j] = Element[j+1];
+                }
+                CurrentElements--;
+            }
+            return;
+        }
     }
-    Size = SomePoly.Size;
-    Power = SomePoly.Power;
-    order_ = true;
+    ChangeMaxElementsAmount();
+    Element[CurrentElements++] = SomeElement;
+    sort_desc();
+}
+
+char* CutTheTerm(char* String, int Beggining, int End) {
+    String[std::min(End+1, static_cast<int>(strlen(String)))] = '\0';
+    return String+Beggining;
+}
+
+bool IsEnd(char String[1000], int Index) {
+    return Index > static_cast<int>(std::strlen(String));
+}
+
+Polynomial& Polynomial::operator=(const Polynomial& other) {
+    if (this != &other) {
+        delete[] Element;
+        MaxElements = other.MaxElements;
+        CurrentElements = other.CurrentElements;
+        Element = new Term[MaxElements];
+        for (int i = 0; i < CurrentElements; ++i) {
+            Element[i] = other.Element[i];
+        }
+    }
     return *this;
 }
 
-Polynomial& Polynomial::operator+=(const Polynomial& SomePoly) {
-    bool FindingFlag = false;
-    for (int i = 0; i < SomePoly.Size; ++i) {
-        for (int j = 0; j < Size; ++j) {
-            if (Element[j].Power == SomePoly.Element[i].Power) {
-                Element[j] = Element[j] + SomePoly.Element[i];
-                FindingFlag = true;
+std::istream& operator>>(std::istream& in, Polynomial& Alpha) { // остоноаочка
+    char String[1000];
+    in.getline(String, 1000);
+    int i = 0;
+    int j = 0;
+    bool short_T;
+    char slice_cpol[1000];
+    bool NumberCheck = false;
+    while (true) {
+        std::strcpy(slice_cpol, String);
+        NumberCheck = false;
+        while (String[j] != 'x'){
+            j+=1;
+            if (IsEnd(String, j)) {
                 break;
             }
-        }
-        if (!FindingFlag) {
-            Term* newPoly = new Term[Size + 1];
-            for (int j = 0; j < Size; ++j) {
-                newPoly[j] = Element[j];
-            }
-            newPoly[Size] = SomePoly.Element[i];
-            delete[] Element;
-            Element = newPoly;
-            ++Size;
-        }
-    }
-    Power = std::max(Power, SomePoly.Power);
-    return *this;
-}
-
-Polynomial& Polynomial::operator*=(const Polynomial& SomePoly) { //ТУт возможно
-    Polynomial result;
-    for (int i = 0; i < Size; ++i) {
-        for (int j = 0; j < SomePoly.Size; ++j) {
-            result += Polynomial(Term(Element[i].Ratio * SomePoly.Element[j].Ratio,Element[i].Power + SomePoly.Element[j].Power));
-        }
-    }
-    *this = result;
-    return *this;
-}
-
-Polynomial operator+(const Polynomial& p1, const Polynomial& p2) {
-    Polynomial result = p1;
-    result += p2;
-    return result;
-}
-
-Polynomial operator*(const Polynomial& p1, const Polynomial& p2) {
-    Polynomial result = p1;
-    result *= p2;
-    return result;
-}
-
-void Polynomial::SortPolynomial(bool Increase) { // Тут должна быть
-    order_ = Increase;
-    for (int i = 0; i < Size - 1; ++i) {
-        for (int j = 0; j < Size - i - 1; ++j) {
-            if ((Increase && Element[j].Power > Element[j + 1].Power) || (!Increase && Element[j].Power < Element[j + 1].Power)) {
-                std::swap(Element[j], Element[j + 1]);
+            if (String[j] == '-' or String[j] == '+') {
+                if (NumberCheck) {
+                    Alpha.AddElement(Term(CutTheTerm(slice_cpol, i, j-1)));
+                    i=j;
+                    continue;
+                }
+                NumberCheck = true;
             }
         }
+        std::strcpy(slice_cpol, String);
+        if (IsEnd(String, j)) {
+            Alpha.AddElement(Term(CutTheTerm(slice_cpol, i, j-1)));
+            break;
+        }
+        j+=1;
+        short_T = false;
+        while (String[j] != '^'){j+=1; if (String[j] == '-' or String[j] == '+') {
+            j-=1; short_T = true; break;
+        }
     }
+        j+=1;
+        if (short_T) {
+            Alpha.AddElement(Term(CutTheTerm(slice_cpol, i, j+1)));
+            i=j+1;
+            continue;
+        }
+        while (String[j] == ' '){
+            j+=1;
+        }
+        while (isdigit(String[j])){
+            j+=1;
+        }
+        Term s = Term(CutTheTerm(slice_cpol, i, j+1));
+        Alpha.AddElement(s);
+        i=j+1;
+        continue;
+    }
+
+    return in;
 }
 
-std::ostream& operator<<(std::ostream& out, Polynomial& SomePoly) {
-    if (SomePoly.Size == 0) {
-        return out << 0;
+std::ostream& operator<<(std::ostream& out, const Polynomial& Alpha) {
+    if (Alpha.CurrentElements == 0) {
+        out << '0';
+        return out;
     }
-    int SomeRatio=0;
-    for (int i = 0; i < SomePoly.Size; ++i) {
-        if(SomePoly.Element[i].GetRatio()!=0){
-            if(SomePoly.Element[i].GetRatio()>0 && SomeRatio>0){
-                out<<"+";
+    for (int i = 0; i < Alpha.CurrentElements; ++i) {
+        int k = Alpha.Element[i].coeff();
+        if (k == 0) {
+            continue;
+        }
+        int n = Alpha.Element[i].degree();
+        if (i > 0) {
+            out << (k >= 0 ? " + " : " - ");
+        }
+        else if (k < 0) {
+            out << '-';
+        }
+        int absK = k < 0 ? -k : k;
+        if (n == 0) {
+            out << absK;
+        }
+        else {
+            if (absK != 1) {
+                out << absK;
             }
-            out<<SomePoly.Element[i]<<" ";
-            SomeRatio++;
+            if (n != 0){
+            out << 'x';
+            if (n != 1) out << '^' << n;
+            }
         }
     }
     return out;
 }
 
-std::istream& operator>>(std::istream& in, Polynomial& SomePoly) {  
-    char buffer[1000];
-    in.getline(buffer, 1000);
-    char* ptr = buffer;
-    char Sign = '+';
-    while (*ptr == ' ') {
-        ++ptr;
+Polynomial operator+(const Polynomial& Alpha, const Polynomial& Betta) {
+    Polynomial TempPolynomal = Alpha;
+    for (int i = 0; i < Betta.CurrentElements; ++i) {
+        TempPolynomal.AddElement(Betta.Element[i]);
     }
-    if (*ptr == '+' || *ptr == '-') {
-        Sign = *ptr;
-        ++ptr;
+    TempPolynomal.sort_desc();
+    return TempPolynomal;
+}
+
+Polynomial operator-(const Polynomial& Alpha, const Polynomial& Betta) {
+    Polynomial TempPolynomal = Alpha;
+    for (int i = 0; i < Betta.CurrentElements; ++i){
+        Term new_Term(-Betta.Element[i].get_k_(), Betta.Element[i].get_n_());
+        TempPolynomal.AddElement(new_Term);
     }
-    while (*ptr) {
-        while (*ptr == ' ') {
-            ++ptr;
-        }
-        char* FirstSign = std::strchr(ptr, '+');
-        char* AlternativeSign = std::strchr(ptr, '-');
-        if (AlternativeSign && (!FirstSign || AlternativeSign < FirstSign)) {
-            FirstSign = AlternativeSign;
-        }
-        char termBuffer[50];
-        termBuffer[0] = Sign;
-        std::cout<< "\n" << buffer<<"\n";
-        std::strcpy(termBuffer + 1, ptr);
-        std::istringstream tempStream(termBuffer);
-        Term temp;
-        tempStream >> temp;
-        std::cout << temp;
-        SomePoly += Polynomial(temp);
-        if (FirstSign) {
-            Sign = *FirstSign;
-            ptr = FirstSign + 1;
-        } else {
-            break;
+    TempPolynomal.sort_desc();
+    return TempPolynomal;
+}
+
+Polynomial operator*(const Polynomial& Alpha, const Polynomial& Betta) {
+    Polynomial TempPolynomal;
+    for (int i = 0; i < Alpha.CurrentElements; ++i){
+        for (int j = 0; j < Betta.CurrentElements; ++j){
+            TempPolynomal.AddElement(Term(Alpha.Element[i].coeff() * Betta.Element[j].coeff(),
+                           Alpha.Element[i].degree() + Betta.Element[j].degree()));
         }
     }
-    return in;
+    TempPolynomal.sort_desc();
+    return TempPolynomal;
 }
