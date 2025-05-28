@@ -4,7 +4,7 @@ Term::Term(): Multiplier(0), Degree(0) {}
 Term::Term(int SomeMult, int SomeDegree): Multiplier(SomeMult), Degree(SomeDegree) {}
 
 Term::Term(char* cterm) {
-    std::cout << cterm << '\n';
+    // std::cout << cterm << '\n';
     int MultSign = 1;
     int TempMult = 0;
     int DegreeSign = 1;
@@ -18,19 +18,16 @@ Term::Term(char* cterm) {
     if (cterm[schet] == '-') {
         MultSign = -1;
         schet+=1;
-    } else if (cterm[schet] == '+') { //Можно понтанутться
+    } else if (cterm[schet] == '+') {
         schet+=1;
     }
     while (cterm[schet] == ' ') {
         schet += 1;
     }
-    for (int i = schet; i < static_cast<int>(strlen(cterm)); i++) { //Если есть ошибка, то тут
-        // if (i >= ) { //попытайся поменять тут
-        //     break;
-        // }
+    for (int i = schet; i < static_cast<int>(strlen(cterm)); i++) {
         if (cterm[i] == ' ') {
             break;
-        } else if (cterm[i] == 'x') { // ПОменяй
+        } else if (cterm[i] == 'x') {
             break;
         }
         if (!isdigit(cterm[i]) && i < static_cast<int>(strlen(cterm))) {
@@ -55,15 +52,15 @@ Term::Term(char* cterm) {
         schet += 1;
     }
     for (int i = schet; i < static_cast<int>(std::strlen(cterm)); i++){
-        if (i >= static_cast<int>(strlen(cterm))) { //???
+        if (i >= static_cast<int>(strlen(cterm))) {
             break;
         }
         if (cterm[i] == ' '){
             break;
         }
         if (!isdigit(cterm[i])){
-            std::cout << "3небыло небыло\n";
-            Multiplier = 0; //Попробуй заменить на временный, который считали до этого?
+            //std::cout << "такого нет\n";
+            Multiplier = 0;
             Degree = 0;
             return;
         }
@@ -80,26 +77,26 @@ Term::Term(char* cterm) {
     if (Multiplier == 0) {
         Degree = 0;
     }
-    std::cout << *this;
-    std::cout << "\n||||||||||||\n"; // meeh
+    // std::cout << *this;
+    // std::cout << "\n||||||||||||\n"; // meeh
     return;
 }
 
-int Term::degree() const {
+int Term::GetDegree() const {
     return Degree;
 }
 
-int Term::coeff() const {
+int Term::GetCoeff() const {
     return Multiplier;
 }
 
-int Term::get_n_(){ // delete
-    return Degree;
-}
+// int Term::GetDegree(){ // delete
+//     return Degree;
+// }
 
-int Term::get_k_(){
-    return Multiplier;
-}
+// int Term::GetCoeff(){
+//     return Multiplier;
+// }
 
 Term& Term::operator+=(const Term& other) {
     if (Degree == other.Degree) {
@@ -169,7 +166,7 @@ void Polynomial::ChangeMaxElementsAmount() {
 void Polynomial::sort_desc() {
     for (int i = 0; i < CurrentElements - 1; ++i)
         for (int j = i + 1; j < CurrentElements; ++j)
-            if (Element[j].degree() > Element[i].degree()) {
+            if (Element[j].GetDegree() > Element[i].GetDegree()) {
                 Term TempElement = Element[i];
                 Element[i] = Element[j];
                 Element[j] = TempElement;
@@ -178,9 +175,9 @@ void Polynomial::sort_desc() {
 
 void Polynomial::AddElement(const Term& SomeElement) {
     for (int i = 0; i < CurrentElements; ++i) {
-        if (Element[i].degree() == SomeElement.degree()) {
+        if (Element[i].GetDegree() == SomeElement.GetDegree()) {
             Element[i] += SomeElement;
-            if (Element[i].coeff() == 0) {
+            if (Element[i].GetCoeff() == 0) {
                 for (int j = i; j < CurrentElements - 1; ++j) {
                      Element[j] = Element[j+1];
                 }
@@ -216,60 +213,63 @@ Polynomial& Polynomial::operator=(const Polynomial& other) {
     return *this;
 }
 
-std::istream& operator>>(std::istream& in, Polynomial& Alpha) { // остоноаочка
+std::istream& operator>>(std::istream& in, Polynomial& Alpha) {
     char String[1000];
     in.getline(String, 1000);
-    int i = 0;
-    int j = 0;
+    int CheckpointEl = 0;
+    int CurEl = 0;
     bool short_T;
-    char slice_cpol[1000];
+    char slice_cpol[1000]{};
     bool NumberCheck = false;
     while (true) {
         std::strcpy(slice_cpol, String);
         NumberCheck = false;
-        while (String[j] != 'x'){
-            j+=1;
-            if (IsEnd(String, j)) {
+        while (String[CurEl] != 'x'){
+            CurEl+=1;
+            if (IsEnd(String, CurEl)) {
                 break;
             }
-            if (String[j] == '-' or String[j] == '+') {
+            if (String[CurEl] == '-' || String[CurEl] == '+') {
                 if (NumberCheck) {
-                    Alpha.AddElement(Term(CutTheTerm(slice_cpol, i, j-1)));
-                    i=j;
+                    Alpha.AddElement(Term(CutTheTerm(slice_cpol, CheckpointEl, CurEl-1)));
+                    CheckpointEl=CurEl;
                     continue;
                 }
                 NumberCheck = true;
             }
         }
         std::strcpy(slice_cpol, String);
-        if (IsEnd(String, j)) {
-            Alpha.AddElement(Term(CutTheTerm(slice_cpol, i, j-1)));
+        if (IsEnd(String, CurEl)) {
+            Alpha.AddElement(Term(CutTheTerm(slice_cpol, CheckpointEl, CurEl-1)));
             break;
         }
-        j+=1;
+        CurEl+=1;
         short_T = false;
-        while (String[j] != '^'){j+=1; if (String[j] == '-' or String[j] == '+') {
-            j-=1; short_T = true; break;
+        while (String[CurEl] != '^'){
+            CurEl+=1;
+            if (String[CurEl] == '-' || String[CurEl] == '+') {
+            CurEl-=1;
+            short_T = true;
+            break;
         }
     }
-        j+=1;
+        CurEl+=1;
         if (short_T) {
-            Alpha.AddElement(Term(CutTheTerm(slice_cpol, i, j+1)));
-            i=j+1;
+            Alpha.AddElement(Term(CutTheTerm(slice_cpol, CheckpointEl, CurEl+1)));
+            CheckpointEl=CurEl+1;
             continue;
         }
-        while (String[j] == ' '){
-            j+=1;
+        while (String[CurEl] == ' '){
+            CurEl+=1;
         }
-        while (isdigit(String[j])){
-            j+=1;
+        while (isdigit(String[CurEl])){
+            CurEl+=1;
         }
-        Term s = Term(CutTheTerm(slice_cpol, i, j+1));
+        Term s = Term(CutTheTerm(slice_cpol, CheckpointEl, CurEl+1));
         Alpha.AddElement(s);
-        i=j+1;
+        CheckpointEl=CurEl+1;
         continue;
     }
-
     return in;
 }
 
@@ -279,24 +279,24 @@ std::ostream& operator<<(std::ostream& out, const Polynomial& Alpha) {
         return out;
     }
     for (int i = 0; i < Alpha.CurrentElements; ++i) {
-        int k = Alpha.Element[i].coeff();
-        if (k == 0) {
+        int SomeCoef = Alpha.Element[i].GetCoeff();
+        if (SomeCoef == 0) {
             continue;
         }
-        int n = Alpha.Element[i].degree();
+        int n = Alpha.Element[i].GetDegree();
         if (i > 0) {
-            out << (k >= 0 ? " + " : " - ");
+            out << (SomeCoef >= 0 ? " + " : " - ");
         }
-        else if (k < 0) {
+        else if (SomeCoef < 0) {
             out << '-';
         }
-        int absK = k < 0 ? -k : k;
+        int AbsSomeCoef = SomeCoef < 0 ? -SomeCoef : SomeCoef;
         if (n == 0) {
-            out << absK;
+            out << AbsSomeCoef;
         }
         else {
-            if (absK != 1) {
-                out << absK;
+            if (AbsSomeCoef != 1) {
+                out << AbsSomeCoef;
             }
             if (n != 0){
             out << 'x';
@@ -319,7 +319,7 @@ Polynomial operator+(const Polynomial& Alpha, const Polynomial& Betta) {
 Polynomial operator-(const Polynomial& Alpha, const Polynomial& Betta) {
     Polynomial TempPolynomal = Alpha;
     for (int i = 0; i < Betta.CurrentElements; ++i){
-        Term new_Term(-Betta.Element[i].get_k_(), Betta.Element[i].get_n_());
+        Term new_Term(-Betta.Element[i].GetCoeff(), Betta.Element[i].GetDegree());
         TempPolynomal.AddElement(new_Term);
     }
     TempPolynomal.sort_desc();
@@ -328,10 +328,12 @@ Polynomial operator-(const Polynomial& Alpha, const Polynomial& Betta) {
 
 Polynomial operator*(const Polynomial& Alpha, const Polynomial& Betta) {
     Polynomial TempPolynomal;
+    std::cout<<Alpha << "\n";
+    std::cout<<Betta << "\n";
     for (int i = 0; i < Alpha.CurrentElements; ++i){
         for (int j = 0; j < Betta.CurrentElements; ++j){
-            TempPolynomal.AddElement(Term(Alpha.Element[i].coeff() * Betta.Element[j].coeff(),
-                           Alpha.Element[i].degree() + Betta.Element[j].degree()));
+            TempPolynomal.AddElement(Term(Alpha.Element[i].GetCoeff() * Betta.Element[j].GetCoeff(),
+                           Alpha.Element[i].GetDegree() + Betta.Element[j].GetDegree()));
         }
     }
     TempPolynomal.sort_desc();

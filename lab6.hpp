@@ -11,11 +11,11 @@ public:
     Term(int k, int n=0);
     Term(char* alpha);
 
-    int degree() const;
-    int coeff() const;
+    int GetDegree() const;
+    int GetCoeff() const;
 
-    int get_n_();
-    int get_k_();
+    // int GetDegree();
+    // int GetCoeff();
 
     Term& operator+=(const Term& Alpha);
     friend Term operator+(const Term& Alpha, const Term& Betta);
