@@ -4,7 +4,6 @@ Term::Term(): Multiplier(0), Degree(0) {}
 Term::Term(int SomeMult, int SomeDegree): Multiplier(SomeMult), Degree(SomeDegree) {}
 
 Term::Term(char* cterm) {
-    // std::cout << cterm << '\n';
     int MultSign = 1;
     int TempMult = 0;
     int DegreeSign = 1;
@@ -59,7 +58,6 @@ Term::Term(char* cterm) {
             break;
         }
         if (!isdigit(cterm[i])){
-            //std::cout << "такого нет\n";
             Multiplier = 0;
             Degree = 0;
             return;
@@ -77,8 +75,6 @@ Term::Term(char* cterm) {
     if (Multiplier == 0) {
         Degree = 0;
     }
-    // std::cout << *this;
-    // std::cout << "\n||||||||||||\n"; // meeh
     return;
 }
 
@@ -89,14 +85,6 @@ int Term::GetDegree() const {
 int Term::GetCoeff() const {
     return Multiplier;
 }
-
-// int Term::GetDegree(){ // delete
-//     return Degree;
-// }
-
-// int Term::GetCoeff(){
-//     return Multiplier;
-// }
 
 Term& Term::operator+=(const Term& other) {
     if (Degree == other.Degree) {

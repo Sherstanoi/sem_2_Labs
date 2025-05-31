@@ -14,9 +14,6 @@ public:
     int GetDegree() const;
     int GetCoeff() const;
 
-    // int GetDegree();
-    // int GetCoeff();
-
     Term& operator+=(const Term& Alpha);
     friend Term operator+(const Term& Alpha, const Term& Betta);
     friend std::istream& operator>>(std::istream& in, Term& Alpha);
