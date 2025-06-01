@@ -2,50 +2,58 @@
 
 //номер 1
 int Task1(){
-    std::string String{};
-    std::getline(std::cin,String);
-    std::vector<int> positions{};
-    int FoundPosition=0;
-    int start=0;
-    while(true){
-        FoundPosition=String.find('@',start);
-        if(FoundPosition!=std::string::npos){
-            positions.push_back(FoundPosition);
-            start=FoundPosition+1;
-        }else{
-            break;
-        }
-    }
-    for(int i =0;i<positions.size();++i){
-        std::cout<<positions[i]<<' ';
-    }
-    positions.clear();
+    std::string FirstString{};
+    std::string SecondString{};
+    std::string ThirdString{};
+    std::string FinaleString{};
+    std::cout<<"Введите три слова через пробел: ";
+    std::cin >> FirstString >> SecondString >> ThirdString;
+    FinaleString += FirstString[0];
+    FinaleString += " ";
+    FinaleString += SecondString[0];
+    FinaleString += " ";
+    FinaleString += ThirdString[0];
+    std::cout<<FinaleString;
     return 0;
 }
 
 //номер 2
-int Task2(){
-    std::string String{};
-    std::getline(std::cin,String);
-    for(int i = 0;i<(String.length()/2);++i){
-        std::swap(String[i],String[String.length()-(i-1)]);
+int Task2(){ // Сделай С и БЕЗ substr
+    std::cin.ignore();
+    std::string Sentance{};
+    std::getline(std::cin,Sentance);
+    std::string FirstWord;
+    std::string SecondWord;
+    std::string FinaleSentance;
+    int LastSpace = 0;
+    int FirstSpace = 0;
+    int SpaceCounter = 0;
+    for(int i = 0; i< size(Sentance); ++i) {
+        if(Sentance[i] == ' ' && Sentance[i-1] != ' ' && i!= 0) {
+            SpaceCounter+=1;
+            if(SpaceCounter == 1) {
+                FirstSpace = i;
+                FirstWord = Sentance.substr(0, i);
+            }
+            LastSpace = i;
+        }
     }
-    for(int i =0;i<String.length();++i){
-        std::cout<<String[i];
-    }
+    SecondWord = Sentance.substr(LastSpace+1, size(Sentance)- LastSpace);
+    FinaleSentance = SecondWord + Sentance.substr(FirstSpace, LastSpace-(FirstSpace-1)) + FirstWord;
+    std::cout<<FinaleSentance << std::endl;
     return 0;
 }
 
 //номер 3
 int Task3(){
-    std::string String{};
-    std::ifstream in("in.txt"); //Проверь файлы в гите
-    std::ofstream out("out.txt");
-    if(in&&out){
-        while(in>>String){
-            out<<String<<'\n';
-        }
+    std::string MessageFromFile{};
+    std::ifstream in("Input.txt");
+    std::ofstream out("Output.txt");
+    while(getline(in,MessageFromFile)) {
+        MessageFromFile = "e-mail: " + MessageFromFile + "\n";
+        out<<MessageFromFile;
     }
+    std::cout<<"Выполнено! проверьте, пожалуйста, файл Output.txt";
     return 0;
 }
 

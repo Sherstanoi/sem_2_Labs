@@ -8,6 +8,12 @@
 #include <list>
 #include <map>
 #pragma once
+
+namespace{
+        int Choice;
+        bool Flag = true;
+}
+
     //номер 1
     int Task1();
     //номер 2
@@ -50,9 +56,6 @@
     //         return a*b;
     //     }
     // };
-    namespace{
-        int Choice;
-    }
     //void PrintTask5(std::vector<Rectangle> vector);
     //номер 6
     int Task6();
