@@ -13,7 +13,7 @@ int Task1(){
     FinaleString += SecondString[0];
     FinaleString += " ";
     FinaleString += ThirdString[0];
-    std::cout<<FinaleString;
+    std::cout<<FinaleString <<std::endl;
     return 0;
 }
 
@@ -21,6 +21,7 @@ int Task1(){
 int Task2(){ // Сделай С и БЕЗ substr
     std::cin.ignore();
     std::string Sentance{};
+    std::cout << "Введите предложение: ";
     std::getline(std::cin,Sentance);
     std::string FirstWord;
     std::string SecondWord;
@@ -53,179 +54,178 @@ int Task3(){
         MessageFromFile = "e-mail: " + MessageFromFile + "\n";
         out<<MessageFromFile;
     }
-    std::cout<<"Выполнено! проверьте, пожалуйста, файл Output.txt";
+    std::cout<<"Выполнено! проверьте, пожалуйста, файл Output.txt\n";
     return 0;
 }
 
 //номер 4 ПЕРЕДЕЛАТЬ
-bool RandomNumMultitask() {
-    std::random_device Rand{};
-    std::default_random_engine randomEngine(Rand()); //?
-    std::uniform_int_distribution distribution(0, 1);
-    return distribution(randomEngine);
+void DoublingTask4Vector(std::vector<int>& alpha) {
+    for(int i = 0; i<size(alpha);i++) {
+        alpha[i]*=2;
+    }
+    return;
 }
 
-void PrintTask4(std::vector<bool> vector) {
-    for(int i = 0;i<vector.size();++i){
-        std::cout<<vector[i]<<' ';
+void PrintTask4(std::vector<int> alpha) {
+    for(int i = 0;i<alpha.size();++i){
+        std::cout<<alpha[i]<<' ';
     }
     std::cout << std::endl;
 }
 
 int Task4() {
-    std::vector<bool> Vector4;
-    for (int i = 0; i < 20; ++i) {
-        Vector4.push_back(RandomNumMultitask());
+    std::vector<int> VectorTask4;
+    for(int i = 0; i<5; ++i) {
+        VectorTask4.push_back(rand()%100);
     }
-    PrintTask4(Vector4);
-    int counterTrue = std::count(Vector4.begin(), Vector4.end(), true);
-    int counterFalse = std::count(Vector4.begin(), Vector4.end(), false);
-    std::cout << "True: " << counterTrue << " False: " << counterFalse << std::endl;
-    Vector4.erase(Vector4.begin(), Vector4.begin() + 10);
-    PrintTask4(Vector4);
+    PrintTask4(VectorTask4);
+    DoublingTask4Vector(VectorTask4);
+    PrintTask4(VectorTask4);
+    VectorTask4.erase(VectorTask4.begin()+2,VectorTask4.end()-2);
+    PrintTask4(VectorTask4);
     return 0;
 }
 
-//номер 5 ПЕРЕДЕЛАТЬ
-// void PrintTask5(std::vector<Rectangle> vector){
-//     for(int i = 0;i<vector.size();++i){
-//         std::cout<<vector[i];
-//     }
-// }
-
-// int Task5() {
-//     std::vector<Rectangle> Rectangles={{1.2,6.3},{4.0,0.7}};
-//     //{Rectangle(1.2, 6.3),Rectangle(4.0, 0.7),Rectangle(7.2, 0.8),Rectangle(5.3, 3.0),Rectangle(4.9, 6.6),Rectangle(9.3, 0.2)};
-//     PrintTask5(Rectangles);
-//     Rectangle maxi{};
-//     double ms=0; //?
-//     int msi=0;
-//     for (int i = 0; i < Rectangles.size(); ++i) {
-//         ms=std::max(ms,Rectangles[i].GetS());
-//         if(ms==Rectangles[i].GetS()){
-//             msi=i;
-//         }
-//     }
-//     std::cout << "BiggestRECTANGLE " << Rectangles[msi];
-//     Rectangles.clear();
-//     return 0;
-// }
-
-//номер 6 ПЕРЕДЕЛАТЬ
-void FindptrTask6(std::list<bool> list,std::list<bool>::iterator& Iterator){
-    int i=0;
-    while(i<10){
-        ++Iterator;
-        ++i;
+//номер 5
+std::ostream& operator<<(std::ostream& out, Complex& CompNumb) {
+    out<<CompNumb.Material;
+    if(CompNumb.Imaginary <0) {
+        out<<" - i * " << (CompNumb.Imaginary*-1) << "\n";
+    } else{
+        out<<" + i * " << CompNumb.Imaginary << "\n";
     }
+    return out;
+}
+Complex Complex::operator+(Complex& alpha){
+    Material+=alpha.Material;
+    Imaginary+=alpha.Imaginary;
+    return *this;
 }
 
-void PrintTask6(std::list<bool> list) { //СРАВНИ ПРИНТЫ
-    std::list<bool>::iterator Iterator;
-    for(Iterator = list.begin();Iterator!= list.end();++Iterator){
-        std::cout<< *Iterator<<' ';
+int Task5() {
+    std::vector<Complex> ComplexNumbers =
+    {Complex(-1.2, 6.3),Complex(4.0, 0.7),Complex(7.2, -0.8),Complex(5.3, 3.0),Complex(-4.9, 6.6),Complex(-9.3, 0.2)};
+    for(int i = 0; i<size(ComplexNumbers); ++i) {
+        std::cout<<ComplexNumbers[i];
+    }
+    Complex Summa = ComplexNumbers[0]+ComplexNumbers[1]+ComplexNumbers[2]+ComplexNumbers[3]+ComplexNumbers[4]+ComplexNumbers[5];
+    std::cout << "\n" << "А теперь их сумма: " << Summa;
+    return 0;
+}
+
+//номер 6
+void PrintTask6(std::list<int> ListTask6) {
+    std::cout << "Вот ваш список: ";
+    for(int i : ListTask6) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+    return;
+}
+
+void DoubleListNumbers(std::list<int>& List) {
+    std::list<int>::iterator Iterator = List.begin();
+    for(int i : List) {
+        *Iterator *=2;
+        ++Iterator;
+    }
+    return;
+}
+
+
+int Task6() {
+    std::list<int> ListTask6;
+    for (int i = 0; i < 5; ++i) {
+        ListTask6.push_back(rand()%100);
+    }
+    PrintTask6(ListTask6);
+    DoubleListNumbers(ListTask6);
+    PrintTask6(ListTask6);
+    std::list<int>::iterator Iterator = ListTask6.begin();
+    std::advance(Iterator,2);
+    ListTask6.erase(Iterator);
+    PrintTask6(ListTask6);
+    return 0;
+}
+
+//номер 7
+void PrintTask7(std::list<Rectangle> Rects) {
+    for(Rectangle i : Rects) {
+        std::cout<<i;
     }
     std::cout << std::endl;
 }
 
-int Task6() {
-    std::list<bool> list;
-    for (int i = 0; i < 20; ++i) {
-        list.push_back(RandomNumMultitask());
+std::ostream& operator<<(std::ostream& out,Rectangle& SomeRect){
+    std::cout << "Длина: " << SomeRect.Length << " Ширина: " << SomeRect.Width << std::endl;
+    return out;
+}
+
+int Task7() {
+    std::list<Rectangle> Rectangles = {Rectangle(1.2, 6.3),Rectangle(4.0, 0.7),Rectangle(7.2, 0.8),Rectangle(5.3, 3.0),Rectangle(4.9, 6.6),Rectangle(9.3, 0.2)};
+    PrintTask7(Rectangles);
+    Rectangle MaxRect(0,0);
+    for (Rectangle i : Rectangles) {
+        if (MaxRect<i) {
+            MaxRect = i;
+        }
     }
-    PrintTask6(list);
-    int counterTrue = std::count(list.begin(), list.end(), true);
-    int counterFalse = std::count(list.begin(), list.end(), false);
-    std::cout << "True: " << counterTrue << " False: " << counterFalse << std::endl;
-    std::list<bool>::iterator Iterator=list.begin();;
-    FindptrTask6(list,Iterator);
-    list.erase(list.begin(),Iterator);
-    PrintTask6(list);
+    std::cout<< "Наибольший прямоугольник - " <<MaxRect << std::endl;;
     return 0;
 }
 
-//номер 7 ПЕРЕДЕЛАТЬ
-// void PrintTask7(std::list<Date> list) {
-//     std::list<Date>::iterator Iterator;
-//     for(Iterator = list.begin();Iterator!= list.end();++Iterator){
-//         std::cout<< *Iterator;
-//     }
-//     std::cout << std::endl;
-// }
-
-// int Task7() {
-//     std::list<Date> dates={Date(1, 2, 1963),Date(14, 7, 1995),Date(7, 12, 2088),Date(5, 3, 2030),Date(24, 9, 2013),Date(19, 9, 2025)};
-//     PrintTask7(dates);
-//     Date today={17,4,2025};
-//     std::list<Date> futureDates;
-//     for (Date date : dates) {
-//         if (today<date) {
-//             futureDates.push_back(date);
-//         }
-//     }
-
-//     std::cout << "Future" << std::endl;
-//     PrintTask7(futureDates);
-//     return 0;
-// }
-
 //номер 8
 int Task8(){
-    std::map<std::string, int> planets;
-    planets["Меркурий"] = 0;
-    planets["Венера"] = 0;
-    planets["Земля"] = 1;
-    planets["Марс"] = 2;
-    planets["Юпитер"] = 69;
-    planets["Сатурн"] = 62;
-    planets["Уран"] = 27;
-    planets["Нептун"] = 14;
-    planets["Плутон"] = 10;
+    std::map<std::string, int> Hundreds;
+    Hundreds["one"] = 100;
+    Hundreds["two"] = 200;
+    Hundreds["three"] = 300;
+    Hundreds["four"] = 400;
+    Hundreds["five"] = 500;
+    Hundreds["six"] = 600;
     std::cout << "Planets"<<'\n';
-    for (std::map<std::string, int>::iterator Iterator = planets.begin(); Iterator != planets.end(); ++Iterator) {
+    for (std::map<std::string, int>::iterator Iterator = Hundreds.begin(); Iterator != Hundreds.end(); ++Iterator) {
         std::cout <<'"'<<Iterator->first<<'"' << "," << Iterator->second << "\n";
     }
-    std::map<std::string, int>::iterator maxPlanet = planets.begin();
-    for (std::map<std::string, int>::iterator Iterator = planets.begin(); Iterator != planets.end(); ++Iterator) {
-        if (maxPlanet->second<Iterator->second) {
-            maxPlanet = Iterator;
-        }
+    Hundreds.erase("five");
+    Hundreds.erase("six");
+    std::cout<< "\n" << "после удаления:" << "\n";
+        for (std::map<std::string, int>::iterator Iterator = Hundreds.begin(); Iterator != Hundreds.end(); ++Iterator) {
+        std::cout <<'"'<<Iterator->first<<'"' << "," << Iterator->second << "\n";
     }
-    std::cout << "MaxPlanet " << maxPlanet->first << " " << maxPlanet->second<<std::endl;
     return 0;
 }
 
 //номер 9
-void PrintTask9(std::map<std::string, int> cities) {
-    std::cout << "Список городов и их расстояние от Москвы:\n";
-    std::map<std::string, int>::const_iterator Iterator;
-    for (Iterator = cities.begin(); Iterator != cities.end(); ++Iterator) {
+void PrintTask9(std::map<std::string, std::string> PhoneNumbers) {
+    std::cout << "Ваша телефонная книга:\n";
+    std::map<std::string, std::string>::const_iterator Iterator;
+    for (Iterator = PhoneNumbers.begin(); Iterator != PhoneNumbers.end(); ++Iterator) {
         std::cout <<'"' <<Iterator->first <<'"'<< ": " << Iterator->second << ",\n";
     }
     std::cout << std::endl;
 }
 
 int Task9() {
-    std::map<std::string, int> cities;
-    cities["Минск"] = 713;
-    cities["Киев"] = 856;
-    cities["Санкт-Петербург"] = 786;
-    cities["Астана"] = 2748;
-    cities["Нижний Новгород"] = 421;
-    cities["Владивосток"] = 9141;
-    PrintTask9(cities);
-    std::map<std::string, int>::iterator minCity = cities.begin();
-    std::map<std::string, int>::iterator maxCity = cities.begin();
-    std::map<std::string, int>::iterator Iterator;
-    for  (Iterator = cities.begin(); Iterator != cities.end(); ++Iterator) {
-        if (Iterator->second < minCity->second) {
-            minCity = Iterator;
-        }
-        if (maxCity->second<Iterator->second) {
-            maxCity = Iterator;
-        }
+    std::map<std::string, std::string> PhoneNumbers;
+    int Amount = 0;
+    std::string Line;
+    std::string Name;
+    std::string PhoneNumber;
+    std::cout<< "Сколько номеров вы хотите поместить в телефонную книгу? ";
+    std::cin>>Amount;
+    std::cin.ignore();
+    for(int i = 0; i < Amount; ++i) {
+        std::cout<<"Введите имя абонента и номер телефона через пробел^ ";
+        std::getline(std::cin,Line);
+        Name = Line.substr(0, Line.find(" "));
+        PhoneNumber = Line.substr(Line.find(" ")+1, Line.size() - Line.find(" ")+1);
+        PhoneNumbers[Name] = PhoneNumber;
     }
-    std::cout << "Ближайший: " <<'"' <<minCity->first <<'"'<< ": " << minCity->second << ",\n";;
-    std::cout << "Дальний: " <<'"' <<maxCity->first <<'"'<< ": " << maxCity->second << ",\n";
+    PrintTask9(PhoneNumbers);
+    std::cout << "Какой Абонент вы хотели бы удалить? Введите имя: ";
+    std::cin>>Line;
+    PhoneNumbers.erase(Line);
+    PrintTask9(PhoneNumbers);
     return 0;
 }
