@@ -18,7 +18,7 @@ int Task1(){
 }
 
 //номер 2
-int Task2(){ // Сделай С и БЕЗ substr
+int Task2(){ 
     std::cin.ignore();
     std::string Sentance{};
     std::cout << "Введите предложение: ";
