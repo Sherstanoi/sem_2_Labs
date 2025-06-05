@@ -18,7 +18,7 @@ int Task1(){
 }
 
 //номер 2
-int Task2(){ 
+int Task2(){
     std::cin.ignore();
     std::string Sentance{};
     std::cout << "Введите предложение: ";
@@ -29,15 +29,17 @@ int Task2(){
     int LastSpace = 0;
     int FirstSpace = 0;
     int SpaceCounter = 0;
-    for(int i = 0; i< size(Sentance); ++i) {
-        if(Sentance[i] == ' ' && Sentance[i-1] != ' ' && i!= 0) {
+    int Schet2 = 0;
+    for(int i : Sentance) {
+        if(Sentance[Schet2] == ' ' && Sentance[Schet2-1] != ' ' && Schet2 != 0) {
             SpaceCounter+=1;
             if(SpaceCounter == 1) {
-                FirstSpace = i;
-                FirstWord = Sentance.substr(0, i);
+                FirstSpace = Schet2;
+                FirstWord = Sentance.substr(0, Schet2);
             }
-            LastSpace = i;
+            LastSpace = Schet2;
         }
+        Schet2+=1;
     }
     SecondWord = Sentance.substr(LastSpace+1, size(Sentance)- LastSpace);
     FinaleSentance = SecondWord + Sentance.substr(FirstSpace, LastSpace-(FirstSpace-1)) + FirstWord;
@@ -58,17 +60,17 @@ int Task3(){
     return 0;
 }
 
-//номер 4 ПЕРЕДЕЛАТЬ
+//номер 4
 void DoublingTask4Vector(std::vector<int>& alpha) {
-    for(int i = 0; i<size(alpha);i++) {
-        alpha[i]*=2;
+    for(int& i : alpha) {
+        i*=2;
     }
     return;
 }
 
 void PrintTask4(std::vector<int> alpha) {
-    for(int i = 0;i<alpha.size();++i){
-        std::cout<<alpha[i]<<' ';
+    for(int i : alpha){
+        std::cout<<i<<' ';
     }
     std::cout << std::endl;
 }
@@ -105,8 +107,8 @@ Complex Complex::operator+(Complex& alpha){
 int Task5() {
     std::vector<Complex> ComplexNumbers =
     {Complex(-1.2, 6.3),Complex(4.0, 0.7),Complex(7.2, -0.8),Complex(5.3, 3.0),Complex(-4.9, 6.6),Complex(-9.3, 0.2)};
-    for(int i = 0; i<size(ComplexNumbers); ++i) {
-        std::cout<<ComplexNumbers[i];
+    for(Complex i : ComplexNumbers) {
+        std::cout<<i;
     }
     Complex Summa = ComplexNumbers[0]+ComplexNumbers[1]+ComplexNumbers[2]+ComplexNumbers[3]+ComplexNumbers[4]+ComplexNumbers[5];
     std::cout << "\n" << "А теперь их сумма: " << Summa;
